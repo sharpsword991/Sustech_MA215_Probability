@@ -1,0 +1,191 @@
+\documentclass[hidelinks]{article}
+\usepackage[a4paper, total={7in, 10in}]{geometry}
+\usepackage{float} 
+\usepackage[dvipsnames]{xcolor}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usepackage{tkz-euclide}
+\usepackage[ruled,vlined,linesnumbered]{algorithm2e}
+\usepackage[unicode]{hyperref}
+\usepackage[all]{hypcap}
+\usepackage{fancyhdr}
+\usepackage{amssymb} %数学符号宏包
+\usepackage{setspace} %间距
+
+
+\title{\textbf{MA215 Probability Homework-4}}
+\author{HONGLI YE 12311501}
+\date{October $17^{th}$ 2024}
+
+\begin{document}
+
+\setstretch{1.2} % 设置1.2倍行间距
+\hypersetup{bookmarksnumbered=true,}
+\pagecolor{white}
+\color{black}
+\maketitle
+
+
+%% For Algotirhm.
+\SetAlgoNoLine % 去除线段
+\SetAlgoNlRelativeSize{0} % 去除左边的线条
+\SetAlgoNoEnd % 去除 `End` 标记
+%%------
+
+\begin{Large}
+\tableofcontents
+\end{Large}%
+\pagebreak
+
+\section{Question 1}
+Suppose that the probability mass function of $X$ is given by:\\
+\begin{table}[H]
+
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|c|}
+        \hline
+        $X$& -3 & -1 & 0 & 2 & 3 & 5\\ \hline
+        p(m)& 0.20 & 0.08 & 0.40 & 0.10 & 0.02 & 0.20\\ \hline
+    \end{tabular}
+    \caption{Question1.1}
+    
+\end{table}
+Find the probability mass function of $Y = X^2$, that is, find $P(Y = m)$
+
+\textbf{\large Answer:}\\
+$P(Y = m)$ equals to $P(X = \sqrt{m} \text{ or } -\sqrt{m})$
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|}
+        \hline
+        $Y$& 0 & 1 & 4 & 9 & 25\\ \hline
+        p(m)& 0.40 & 0.08 & 0.10 & 0.22 & 0.20\\ \hline
+    \end{tabular}
+    \caption{Question1.2}
+\end{table}
+
+
+\section{Question 2}
+Three fair dice (six-sided) are rolled. Let $X$ denote the maximum of the three numbers on the dice and $Y$ the minimum of the three numbers.
+\begin{enumerate}
+    \item[a)] Find the probability mass function of $X$
+    \item[b)] Find the probability mass function of $Y$
+\end{enumerate}
+
+\textbf{\large Answer:}\\
+\begin{enumerate}
+    \item $X$ is a discrete random variable, whose image = \{1,2,3,4,5,6\}, and sample space $S$ has $6\times6\times6 = 216$ possible situations.
+    $$P(X = 1) = \frac{1}{216}$$
+    $$P(X = 2) = \frac{1\times2\times2 + 1\times 1 \times 2 + 1\times 1 \times 1}{216} = \frac{7}{216}$$
+    $$P(X = 3) = \frac{1\times3\times3 + 2\times 1 \times 3 + 2\times 2 \times 1}{216} = \frac{19}{216}$$
+    $$P(X = 4) = \frac{1\times4\times4 + 3\times 1 \times 4 + 3\times 3 \times 1}{216} = \frac{37}{216}$$
+    $$P(X = 5) = \frac{1\times5\times5 + 4\times 1 \times 5 + 4\times 4 \times 1}{216} = \frac{61}{216}$$
+    $$P(X = 6) = 1 - \frac{5\times 5 \times 5}{216} = \frac{91}{216}$$
+    \begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|c|}
+        \hline
+        $X$& 1 & 2 & 3 & 4 & 5 & 6\\ \hline
+        p(m)& $\frac{1}{216}$ & $\frac{7}{216}$ & $\frac{19}{216}$ & $\frac{37}{216}$ & $\frac{61}{216}$ & $\frac{91}{216}$\\ \hline
+    \end{tabular}
+    \caption{Question2.1}
+    \end{table}
+    \item $Y$ is a discrete random variable, whose image = \{1,2,3,4,5,6\}, and sample space $S$ has $6\times6\times6 = 216$ possible situations.
+    $$P(Y = 1) = 1 - \frac{5\times5\times5}{216} = \frac{91}{216}$$
+    $$P(Y = 2) = 1 - P(Y=1) - \frac{4\times4\times4}{216} = \frac{61}{216}$$
+    $$P(Y = 3) = 1 - P(Y=1) - P(Y=2) - \frac{3\times3\times3}{216} = \frac{37}{216}$$
+    $$P(Y = 4) = 1 - P(Y=1) - P(Y=2) - P(Y=3) - \frac{2\times2\times2}{216} = \frac{19}{216}$$
+    $$P(Y = 5) = \frac{1\times2\times2 + 1\times 1 \times 2 + 1\times 1 \times 1}{216} = \frac{7}{216}$$
+    $$P(Y = 6) = \frac{1}{216}$$
+    \begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|c|}
+        \hline
+        $Y$& 1 & 2 & 3 & 4 & 5 & 6\\ \hline
+        p(m)& $\frac{91}{216}$ & $\frac{61}{216}$ & $\frac{37}{216}$ & $\frac{19}{216}$ & $\frac{7}{216}$ & $\frac{1}{216}$\\ \hline
+    \end{tabular}
+    \caption{Question2.1}
+    \end{table}
+    
+\end{enumerate}
+
+
+
+\section{Question 3}
+We choose a number from the set $\{10, 11, 12,\dots, 99\}$ uniformly at random.
+\begin{enumerate}
+    \item[a)] Let $X$ be the first digit and $Y$ the second digit of the chosen number. Find the probability mass functions of $X$ and $Y$. Show that for any $1 \leq i \leq 9 \text{ and } 0 \leq j \leq 9$,
+    $$P(X = i, Y = j) = P(X = i) \times P(Y = j)$$
+    \item[b)] Let $X$ be the first digit of the chosen number and $Z$ the sum of the two digits. Find the probability mass functions of $X$ and $Y$. Show that there exist some $1 \leq n \leq 9 \text{ and } 0 \leq m \leq 18$,
+    $$P(X = n, Z = m)\neq P(X = n) \times P(Z = m)$$
+\end{enumerate}
+
+\textbf{\large Answer:}\\
+Let $S = \{10, 11, 12,\dots, 99\}$, be the sample space. Obviously, $|S| = 90$
+\begin{enumerate}
+    \item[a)] Let us calculate LHS and RHS.
+    $$ LHS = P(X = i, Y = j) = \frac{1}{90}$$
+    $$ P(X = i) = \frac{1}{9} \text{ and } P(Y = j) = \frac{1}{10}$$
+    So:
+    $$ RHS = P(X = i) \times P(Y = j) = \frac{1}{90}$$
+    So:
+    $$ LHS = RHS$$
+    \item[b)] To prove this, we only need to give a negative example.\\
+    Let $n = 1$,$m = 18$
+    $$P(X = 1, Z = 18) = 0$$
+    $$P(X = 1) \times P(Z = 18) = \frac{1}{9} \times \frac{1}{90} = \frac{1}{810} \neq 0$$
+    So there exsit some $n,m$ such that:
+    $$ LHS \neq RHS$$
+\end{enumerate}
+
+
+
+\section{Question 4}
+Six distinct numbers are randomly distributed to players numbered 1 through 6. Whenever two players compare their numbers, the one with the higher one is declared the winner. Initially, players 1 and 2 compare their numbers; the winner then compares her number with that of player 3, and so on. Let X denote the number of times player 1 is a winner. Find $ P(X = i)\text{ for } i \in \{0, 1, 2, 3, 4, 5\}$
+
+\textbf{\large Answer:}\\
+Let $\{x_1,x_2,x_3,x_4,x_5,x_6\}$ be each player's number. Then for a fixed sequence, the $i$ is fixed.\\
+Moreover, $i = $ the number $(i+1)^{\text{th}}$ player which is bigger than player 1.\\
+Let $S$ be the sample space, then we easily have:
+$$ |S| = 6! = 720 $$
+Now we calculate $P(X = i)$:
+$$ P (X = 0) = \frac{4!}{6!} + \frac{4!\times 2}{6!} + \frac{4! \times 3!}{6!} + \frac{4!\times 4}{6!} + \frac{5!}{6!} = \frac{1}{2}$$
+$$ P (X = 1) = \frac{4!}{6!} + \frac{3!\times 2 \times 3}{6!} + \frac{3! \times 3 \times 2}{6!} + \frac{4!}{6!} = \frac{1}{6}$$
+$$ P (X = 2) = \frac{4!}{6!} + \frac{3\times 2\times 2\times 2!}{6!} + \frac{2! \times 3!}{6!} = \frac{1}{12}$$
+$$ P (X = 3) = \frac{4!}{6!} + \frac{3!\times2!}{6!} = \frac{1}{20}$$
+$$ P (X = 4) = \frac{4!}{6!} = \frac{1}{30}$$
+$$ P (X = 5) = \frac{5!}{6!} = \frac{1}{6}$$
+
+
+
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|c|}
+        \hline
+        $X$& 0 & 1 & 2 & 3 & 4 & 5 \\ \hline
+        p(i)& $\frac{1}{2}$ & $\frac{1}{6}$ & $\frac{1}{12}$ & $\frac{1}{20}$ & $\frac{1}{30}$ & $\frac{1}{6}$\\ \hline
+    \end{tabular}
+    \caption{Question4.1}
+\end{table}
+
+\section{Question 5}
+20 balls are to be distributed among 6 urns, with each ball going into urn $i$ with probability $p_i$, $\Sigma^6_{i=1}(p_i) = 1$. Let $X_i$ denote the number of balls that go into urn $i$. Assume that events corresponding to the locations of different balls are independent.
+\begin{enumerate}
+    \item[a)] For each $1 \leq i \leq 6$, find the probability mass function of $X_i$
+    \item[b)] For each $1 \leq i \leq j \leq 6$, find the probability mass function of $X_i + X_j$
+    \item[c)]  Find $P(X_2 + X_3 + X_4 = 7)$
+\end{enumerate}
+\textbf{\large Answer:}
+\begin{enumerate}
+    \item[a)] For each $X_i$, it obeys Binomial Distribution, i.e. $X_i \sim Bin(20, p_i)$, so the p.m.f. of $X_i$ is:
+    $$ P(X_i = k) = \binom{20}{k}p_i^{k}(1-p_i)^{20-k} \quad \forall k \in [0,20]$$
+    \item[b)] From answer to question a, we know that:
+    $$P(X_i = k) = \binom{20}{k}p_i^{k}(1-p_i)^{20-k} \quad \forall k \in [0,20] \text{ and } i \in [1,6]$$
+    $X_i + X_j \in [0,20]$, consider $i$ and $j$ as a new whole group. $p_{ij} = p_i + p_j$, so it is easy to write that:
+    $$ P(X_i + X_j = k) \binom{20}{k}(p_i + p_j)^{k}(1-p_i-p_j)^{20-k} \quad \forall k \in [0,20]$$
+    \item[c)] Similar to the thought in question b, we see three urns as a whole, then:
+    $$ P(X_2 + X_3 + X_4 = 7) = \binom{20}{7}(p_2+p_3+p_4)^{7}(1-p_2-p_3-p_4)^{13} = 77520(p_2+p_3+p_4)^{7}(1-p_2-p_3-p_4)^{13}$$
+\end{enumerate}
+
+\end{document}
