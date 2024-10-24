@@ -1,0 +1,145 @@
+\documentclass[hidelinks]{article}
+\usepackage[a4paper, total={7in, 10in}]{geometry}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usepackage{tkz-euclide}
+\usepackage{amssymb}
+\usepackage[unicode]{hyperref}
+\usepackage[all]{hypcap}
+\usepackage{fancyhdr}
+\usepackage{setspace} %间距
+
+
+\title{\textbf{MA215 Probability Homework-3}}
+\author{HONGLI YE 12311501}
+\date{September $26^{th}$ 2024}
+
+\begin{document}
+
+\setstretch{1.2} % 设置1.2倍行间距
+\hypersetup{bookmarksnumbered=true,}
+\pagecolor{white}
+\color{black}
+\maketitle
+
+\begin{Large}
+\tableofcontents
+\end{Large}%
+\pagebreak
+
+\section{Question 1}
+If A flips n + 1 and B flips n fair coins, find the probability that A gets more heads than B. Hint: Condition on which player has more heads after each has flipped n coins. (There are three possibilities.)
+
+\textbf{ \large Answer:}\\
+Let: 
+$E_1 = \text{ A gets fewer heads than B after each has flipped n coins}$\\
+$ E_2 = \text{A gets the same heads than B after each has flipped n coins}$\\
+$ E_3 = \text{A gets more heads than B after each has flipped n coins}$\\
+$ F = \text{A gets more heads than B after B has flipped n coins and A has flipped n+1 coins}$\\
+Then:
+$$ S = E_1 \cup E_2 \cup  E_3 \text{ and } \forall i \neq j, E_i \cap E_j =  \varnothing $$
+So:
+$$ P(F) = \Sigma^3_{i=1}P(F|E_i)P(E_i) $$
+Since:
+$$ P(F|E_1) = 0; P(F|E_2) = \frac{1}{2}; P(F|E_3) = 1$$
+So:
+$$ P(F) = \frac{1}{2}P(E_2) + P(E_3)$$
+By symmetric of A and B:
+$$ P(E_1) = P(E_3) = \frac{1 - P(E_2)}{2}$$
+So, we can calculate $P(F)$ without giving the specific value of $P(E_2)$:
+$$ P(F) = \frac{1}{2}P(E_2) + \frac{1}{2} - \frac{1}{2}P(E_2) $$
+$$ P(F) = \frac{1}{2}$$
+
+\section{Question 2}
+51\% of the students at a certain college are females. 6\% of the students in this college are majoring in computer science. Of all the students at the college, 3\% are women majoring in computer science. If a student is selected at random, find the conditional probability that:\\
+(a) the student is female given that the student is majoring in computer science;\\
+(b) this student is majoring in computer science given that the student is female
+
+\textbf{ \large Answer:}
+\begin{enumerate}
+    \item For \textbf{Question a}:\\
+    Let $ E = \text{ The student is a female}$, and $ F = \text{ The student is majoring in computer science}$, Then:
+    $$ P(F|E) = \frac{P(E \cap F)}{P(E)}$$
+    Since:
+    $$ P(F \cap E) = 3\% \text{ and } P(E) = 6\% $$ 
+    So:
+    $$ P(F|E) = \frac{1}{2} = 0.5$$
+    \item For \textbf{Question b}:\\
+    Let $ E = \text{ The student is a female}$, and $ F = \text{ The student is majoring in computer science}$, Then:
+    $$ P(E|F) = \frac{P(F \cap E)}{P(F)}$$
+    Since:
+    $$ P(F \cap E) = 3\% \text{ and } P(E) = 51\% $$ 
+    SO:
+    $$ P(E|F) = \frac{3}{51} = \frac{1}{17} \approx 5.882\%$$
+\end{enumerate}
+\section{Question 3}
+A coin having a probability 0.7 of landing on heads is flipped. Jim observes the result- either heads or tails–and rushes to tell Mary. However, with probability 0.3, Jim will have forgotten the result by the time he reaches Mary. If Jim has forgotten, then, rather than admitting this to Mary, he is equally likely to tell Mary that the coin landed on heads or that it landed tails. (If he does remember, then he tells Mary the correct result.)\\
+(a) What is the probability that Mary is told that the coin landed on heads?\\
+(b) What is the probability that Mary is told the correct result?\\
+(c) Given that Mary is told that the coin landed on heads, what is the probability that it did in fact land on heads?
+
+\textbf{\large Answer:}
+\begin{enumerate}
+    \item For \textbf{Question a:}\\
+    Let $ E_1 = \text{ Landing on heads is flipped }$, and $ E_2 = \text{ Landing on tails is flipped}$\\
+    $ F_1 = \text{ Jim has forgotten the correct result } $, and $ F_2 = \text{ Jim did not forget the correct result } $\\
+    $ G_1 = \text{ Mary was told that landing on heads is flipped} $, and $ G_2 = \text{ Mary was told that landing on tails is flipped } $
+    $$ S = E_1 \cup E_2 = F_1 \cup F_2 = G_1 \cup G_2 \text{ and } E_1 \cap E_2 = F_1 \cap F_2 = G_1 \cap G_2 = \varnothing$$
+    According to Total Probability Formula:
+    $$ P(G_1) = P(G_1|F_1)P(F_1) + P(G_1|F_2)P(F_2)$$
+    Since:
+    $$ P(G_1|F_1) = 0.5,\text{ and } P(G_1|F_2) = P(E_1) = 0.7$$
+    So:
+    $$ P(G_1) = 0.5 * 0.3 + 0.7 * 0.7 = 0.64$$
+    \item For \textbf{Question b:}\\
+    Let $ B = \text{ Mary is told the correct result. }$
+    $$ P(G_1 \cap E_1)  =  P(G_1 \cap E_1|F_1)P(F_1) + P(G_1 \cap E_1|F_2)P(F_2) $$
+    $$ P(G_1 \cap E_1) = 0.7*0.5*0.3 + 0.7 * 0.7 $$
+    $$ P(G_2 \cap E_2)  =  P(G_1 \cap E_2|F_1)P(F_1) + P(G_1 \cap E_2|F_2)P(F_2) $$
+    $$ P(G_2 \cap E_2) = 0.3*0.5*0.3 + 0.3 * 0.7 $$
+    $$ P(B) = P(G_1 \cap E_1) + P(G_2 \cap E_2) = 0.85$$
+    
+    \item For \textbf{Question c:}\\
+    According to Bayes' Theorem :
+    $$ P(E_1|G_1) = \frac{P( E_1 \cap G_1) }{P(G_1)} $$
+    $$ P(E_1|G_1) = \frac{0.7*0.5*0.3 + 0.7*0.7}{0.64} = \frac{0.595}{0.64} \approx 92.97\% $$
+\end{enumerate}
+\section{Question 4}
+A bag contains three kinds of dice: seven 4-sided dice, three 6-sided dice, and two
+12-sided dice. A die is drawn from the bag and then rolled, producing a number. For
+example, the 4-sided die could be chosen and rolled, producing the numbers 1, 2, 3 and 4. Assume that each die is equally likely to be drawn from the bag.\\
+(a) What is the probability that the roll gave a six?\\
+(b) What is the probability that a 6-sided die was chosen, given that the roll gave a six?
+
+\textbf{\large Answer:}
+\begin{enumerate}
+    \item For \textbf{Question a:}\\
+    Let $ E_1 = \text{ Pick the 4-sided dice from the bag. }$\\
+    $ E_2 = \text{ Pick the 6-sided dice from the bag. }$\\
+    $ E_3 = \text{ Pick the 12-sided dice from the bag. }$\\
+    $ F = \text{ The final roll gave a six }$\\
+    It is obvious that $P(E_1)=\frac{2}{11}$, $P(E_2)=\frac{3}{11}$,$P(E_1)=\frac{6}{11}$.According to Total Probability Formula.
+    $$ P(F) = \Sigma^3_{i=1}P(F \cap E_i)P(E_i)$$
+    $$ P(F) = 0*\frac{6}{12} + \frac{1}{6}*\frac{3}{12} + \frac{1}{12}*\frac{2}{12}$$
+    So:
+    $$ P(F) = \frac{1}{18} \approx 5.56\%$$
+
+    \item For \textbf{Question b:}\\
+    According to Bayes' Theorem:
+    $$ P(E_2|F) = \frac{P(F|E_2)P(E_2)}{\Sigma^3_{i=1}P(F \cap E_i)P(E_i)}$$
+    $$ P(E_2|F) = \frac{\frac{1}{6}*\frac{3}{12}}{0*\frac{6}{12} + \frac{1}{6}*\frac{3}{12} + \frac{1}{12}*\frac{2}{12}} = \frac{3}{4} = 0.75$$
+\end{enumerate}
+\section{Question 5}
+In answering a question on a multiple-choice test, a student either knows the answer or guesses. Let $p$ be the probability that the student knows the answer and 1 - $p$ be the probability that the student guesses. Assume that a student who guesses at the answer will be correct with probability $\frac{1}{m}$, where $m$ is the number of multiple-choice alternatives. What is the conditional probability that a student knew the answer to a question given that he or she answered it correctly?
+
+\textbf{\large Answer:}\\
+Let $ E_1 = \text{ The student knows the right answer} $\\
+$ E_2 = \text{ The student do not know the right answer} $\\
+$ F = \text{ The student answered it correctly} $\\
+According to Bayes' Theorem:
+$$ P(E_1|F) = \frac{P(F|E_1)P(E_1)}{P(F|E_1)P(E_1) + P(F|E_2)P(E_2)}$$
+So:
+$$ P(E_1|F) = \frac{1*p}{1*p + \frac{1}{m}*(1-p)}$$
+$$ P(E_1|F) = \frac{mp}{(m-1)p +1}$$
+\end{document}
