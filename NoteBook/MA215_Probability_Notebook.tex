@@ -1,0 +1,871 @@
+\documentclass{article}
+
+\usepackage{amsmath, amsthm, amssymb, amsfonts}
+\usepackage{thmtools}
+\usepackage{graphicx}
+\usepackage{pgfplots} % 引入pgfplots宏包
+\pgfplotsset{compat=1.18} % 设置兼容性版本
+\usepackage{setspace}
+\usepackage{geometry}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{framed}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[table,xcdraw]{xcolor}
+\usepackage{url} %cite
+
+\usepackage{tcolorbox}
+
+\colorlet{LightGray}{White!90!Periwinkle}
+\colorlet{LightOrange}{Orange!15}
+\colorlet{LightGreen}{Green!15}
+\colorlet{LightBlue}{blue!5}
+
+\newcommand{\HRule}[1]{\rule{\linewidth}{#1}}
+
+\declaretheoremstyle[name=Theorem,]{thmsty}
+\declaretheorem[style=thmsty,numberwithin=section]{theorem}
+\tcolorboxenvironment{theorem}{colback=LightGray}
+
+\declaretheoremstyle[name=Definition,]{define}
+\declaretheorem[style=define,numberwithin=section]{definition}
+\tcolorboxenvironment{definition}{colback=LightOrange}
+
+\declaretheoremstyle[name=Axiom,]{axiomsty}
+\declaretheorem[style=axiomsty,numberwithin=section]{axiom}
+\tcolorboxenvironment{axiom}{colback=LightGreen}
+
+\declaretheoremstyle[name=Quiz,]{quizty}
+\declaretheorem[style=quizty,numberwithin=section]{quiz}
+\tcolorboxenvironment{quiz}{colback= LightBlue}
+
+\setstretch{1.2}
+\geometry{
+    textheight=9in,
+    textwidth=5.5in,
+    top=1in,
+    headheight=12pt,
+    headsep=25pt,
+    footskip=30pt
+}
+
+% ------------------------------------------------------------------------------
+
+\begin{document}
+
+% ------------------------------------------------------------------------------
+% Cover Page and ToC
+% ------------------------------------------------------------------------------
+
+\title{ \normalsize \textsc{}
+		\\ [2.0cm]
+		\HRule{1.5pt} \\
+		\LARGE \textbf{\uppercase{Notebook for MA215 Probability}
+		\HRule{2.0pt} \\ [0.6cm] \LARGE{Lecturer: Prof.Hong} \vspace*{10\baselineskip}}
+		}
+\date{}
+\author{\textbf{Author} \\ 
+		Hongli Ye \\
+		Southern University of Science and Technology \\
+		2024 Fall}
+
+\maketitle
+\newpage
+
+\tableofcontents
+\newpage
+
+% ------------------------------------------------------------------------------
+
+\section{Lecture 1 Basic of Probability 2024.09.12}
+\begin{theorem}
+    \textbf{Basic principle of counting}\\
+    Suppose there are two experiments. Experiment 1 has $n$ results and experiment 2 has $m$ results.\\
+    Then together there are $m \times n$ possible outcomes.
+\end{theorem}
+This basic theorem could be extended to many finite experiments by induction.
+
+
+\begin{definition}
+    \textbf{Permutation}\\
+    Permutation means the different ordered arrangement of objects.
+\end{definition}
+
+\begin{theorem}
+    Suppose we have $n$ objects. Then there are $n! = \Pi^n_{i=1}(i) = 1 \times 2 \times \dots \times n$ possible permutations.
+\end{theorem}
+
+\begin{theorem}
+    There are $n$ objects, of which $n_1$ are alike, $n_2$ are alike,$\dots$,$n_r$ are alike.\\
+    Then there are $\frac{n!}{n_1!\times n_2!\times \dots n_r!}$ possible outcomes.
+\end{theorem}
+
+\begin{definition}
+    \textbf{Combination}\\
+    Combination refers to selecting items from a set where order does not matter.
+\end{definition}
+
+\begin{theorem}
+    If we choose $r$ objects from a total of $n$ differents objects at a time, then the \# possible combinations of $\binom{n}{r}$
+\end{theorem}
+
+\begin{theorem}
+    \textbf{Binomal Theorem}\\
+    For any positive integer $n \geq 1$
+    $$ (x + y)^k = \Sigma^n_{k=0}(\binom{n}{k}x^ky^{n-k})$$
+\end{theorem}
+\begin{definition}
+    \textbf{Induction}\\
+    Mathematical Induction is a proof method for natural numbers, consisting of a base case and an inductive step to show a statement holds for all natural numbers.
+\end{definition}
+Mathematical Induction's basic step:
+\begin{enumerate}
+    \item Basic step: The case holds when $n = 1$
+    \item Inductive step: Assume $n = k$ holds for some $k \geq 1$. Then $n = k+1$ holds.
+\end{enumerate}
+
+\begin{quiz}
+    From 8 women and 6 men, a committee of 3 men and 3 women is to be formed. How many different committees?
+    \begin{enumerate}
+        \item 2 of the men refuse to serve together?
+        \item 2 of the women refuse to serve together?
+        \item 1 man and 1 woman refuse to serve together?
+    \end{enumerate}
+\end{quiz}
+
+% Maybe I need to add one more part: Examples.
+% Set style and colour later.
+
+
+\section{Lecture 2 Probability Space 2024.09.19}
+\textbf{Probability Space} includes Sample Space, Events and Probability Measure.\\
+Probability Space is a special case of measure theory.
+\begin{definition}
+    \textbf{Sample Space}\\
+    The sample space $S$ is the set of all possible outcomes of an experiment.
+\end{definition}
+
+\begin{definition}
+    \textbf{Event}\\
+    An event is a subset of the sample space $S$, denoted $E \subset S$
+\end{definition}
+
+\begin{definition}
+    \textbf{Set Operation}\\
+    Let $E,F$ be two events and $S$ is the sample space.
+    \begin{enumerate}
+        \item \textbf{Union}: $ E \cup F = \{ x | x\in E \text{ or } x \in F\}$
+        \item \textbf{Intersection}: $ E \cap F = \{ x | x\in E \text{ and } x \in F\}$
+        \item \textbf{Complement}: $ E^c = \{ x | x \notin E \text{ and } x \in S\}$
+        \item \textbf{Different}: $ E - F = \{ x | x\in E \text{ or } x \notin F\}$
+    \end{enumerate}
+\end{definition}
+
+\begin{definition}
+    \textbf{Extension:} $\sigma-\text{algebra}$\\
+    Let $\mathcal{X}$ be a non-empty set. $\mathcal{F}$ is said to be a $\sigma$-algebra if:
+    \begin{enumerate}
+        \item $\mathbb{X} \in \mathbb{F}$
+        \item If $A \in \mathcal{F}, A^c \in \mathcal{F}$
+        \item If $A_1,A_2 \dots \in \mathcal{F}, \text{ then } \bigcup^{\infty}_{i=1}(A_i) \in \mathcal{F}$
+    \end{enumerate}
+\end{definition}
+
+\begin{theorem}
+    \textbf{De Morgan's Law}\\
+    For each $n \geq 1$, we have
+    $$ (\bigcup^n_{i=1}(E_i))^c = \bigcap^n_{i=1}(E^c_i)$$
+    $$ (\bigcap^n_{i=1}(E_i))^c = \bigcup^n_{i=1}(E^c_i)$$
+\end{theorem}
+
+\begin{axiom}
+    \textbf{Axiom of Probability}
+    Let $S$ be a sample space. For each event $E$, the probability $P(E)$ satisfies:
+    \begin{enumerate}
+        \item $0 \leq P(E) \leq 1$
+        \item $P(S) = 1$
+        \item For any sequence of mutually exclusive events $E_1,E_2 \dots$, we have:
+        $$ \Sigma^\infty_{i=1}P(E_i) = 1$$
+    \end{enumerate}
+\end{axiom}
+
+\begin{theorem}
+    \textbf{Basic corollaries:}\\
+    \begin{enumerate}
+        \item $P(E) = 1 - P(E^c)$
+        \item If $ E \subset F$, then $ P(E) \leq P(F)$
+        \item $P(E \cup F) = P(E) + P(F) - P(E \cap F)$
+        \item Inclusion-Exclusion Identity:(Extension of the line above)
+        $$ P(\bigcup^n_{i=1}) = \Sigma^n_{i=1}P(E_i) - \Sigma_{i_1 < i_2}P(E_{i_1} \cap E_{i_2}) + \dots + (-1)^{n+1}P(\bigcap^n_{i=1}(E_i))$$
+    \end{enumerate}
+\end{theorem}
+
+\begin{quiz}
+    There are $N$ cards numbered as $1,2,\dots, N$. Pick 1 card uniformly at random. Write down the number and return the card> Repeat for $n$ times ($n > N, n = N, n < N$), we get a sequence $(x_1,x_2\dots, x_n)$.
+    \begin{enumerate}
+        \item $P(\text{the sequence is strictly increasing})$
+        \item $P(\text{the sequence is non-decreasing})$
+    \end{enumerate}
+\end{quiz}
+
+
+
+\section{Lecture 3 Conditional Probability and Independence 2024.09.26}
+\begin{definition}
+    \textbf{Conditional Probability}\\
+    For 2 events E,F such that $P(E) > 0$. The conditional probability F occurs given that E has occurred is denoted by:
+    $$ P(F|E) = \frac{P(F \cap E)}{P(E)}$$
+\end{definition}
+
+\begin{theorem}
+    If each outcome of a finite sample space is equally likely, then we may compute the conditional probability of the form $P(F|E)$ by using E as the reduced sample space.
+\end{theorem}
+
+\begin{theorem}
+    \textbf{Multiplication Law}\\
+    For events E, F, we have:
+    $$ P(E \cap F) = P(E)\times P(F|E)$$
+    More generally:
+    $$ P(E_1 \cap E_2 \cap \dots \cap E_n) = P(E_1)\times P(E_2|E_1)\times P(E_3|(E_1 \cap E_2))\dots P(E_n|\bigcap^{n-1}_{i=1}(E_i))$$
+\end{theorem}
+
+\begin{definition}
+    \textbf{Independence}\\
+    For two events E, F. We say E and F are independent if:
+    $$ P(E \cap F) = P(E)\times P(F) \text{ or } P(F|E) = P(F)$$
+\end{definition}
+
+\begin{theorem}
+    \textbf{Total Probability Formula}\\
+    Let $A_1,A_2,\dots,A_n$ be mutually exclusive with $S = \bigcup^n_{k=1}(A_k)$.\\
+    Then $\forall$ event B:
+    $$ P(B) = \Sigma^n_{i=1}P(B|A_i)P(A_i)$$
+\end{theorem}
+
+\begin{theorem}
+    \textbf{Bayes's Theorem}\\
+    Let $A_1,A_2,\dots A_n$ be mutually exclusive so that $S = \bigcup^n_{k=1}(A_k)$.\\
+    Then $\forall$ event B:
+    $$ P(A_j|B) = \frac{P(B|A_j)\times P(A_j)}{\Sigma^n_{i=1}P(B|A_i)P(A_i)}$$
+\end{theorem}
+
+\begin{quiz}
+    A gambler has a fair coin and a two-headed coin in his pocket.
+    \begin{enumerate}
+        \item He selects one of the coins at random; when he flips it, it shows heads. What is the probability that it is the fair coin?
+        \item Suppose that he flips the same coin a second time and, again, it shows heads. Now what is the probability that it is fair coin?
+        \item Suppose that he flips the same coin a third time and it shows tails. Now what is the probability that it is the fair coin?
+    \end{enumerate}
+\end{quiz}
+
+
+
+
+\section{Lecture 4 Discrete Random Variable 2024.10.10}
+
+\begin{definition}
+    \textbf{Discrete Random Variable}\\
+    A Random Variable $ X: S \longrightarrow \mathbb{R}$.\\
+    If we take on at most a countable number of possible values is called discrete random R.V.
+\end{definition}
+For example: 80 students, for which 70 are male. Choose 1 uniformly at random. Do this for 4 times. Let $X = \#$ of male students chosen.
+
+Then $X$ is a discrete R.V. taking values of \{0,1,2,3,4\}
+
+Moreover:
+$$\forall \text{ } k \in \{0,1,2,3,4\}. P(X=k) = \binom{4}{k}(\frac{7}{8})^k(\frac{1}{8})^{1-k}$$
+This is the probability mass functor of $X$.
+\begin{definition}
+    \textbf{Probability Mass Functor}\\
+    For a discrete random variable $X$, we can define the probability mass functor(p.m.f), where $p(m)$ of $X$ by
+    $$ p(m) = P(X=m)$$
+\end{definition}
+
+\begin{definition}
+    
+    \textbf{Special Random Variable}
+    \begin{enumerate}
+        \item A random variable is said to be a \textbf{Bernoulli} random variable with parameter $p \in [0,1]$ if: 
+        $$ P(X=0) = 1 - p \text{ and } P(X = 1) = p $$
+        We say $ X \sim \text{Bernoulli}(p)$
+        \item If we toss a coin independently for $n$ times and let $X = \#$ of heads coming up, then $X$ is said to be a \textbf{Binomial} random variable with parameter $p \in [0,1]$\\
+        Denoted by $X \sim \text{Bin}(n,p)$
+    \end{enumerate}
+    
+\end{definition}
+The possible mass functor of $\text{Bin}(n,p)$ is:
+$$ P(X=k) = \binom{n}{k}p^k(1-p)^{n-k}$$
+
+For example: Alice is in a class of 80 students, after 100 independent trials. We count $X$ as the \# of times where Alice is picked. Then $X \sim \text{Bin}(100, \frac{1}{80})$
+
+
+Remark: Binomial R.V. equals $n$ times the addition of Bernoulli R.V.
+
+
+\begin{definition}
+    \textbf{Poisson Random variable}\\
+    Let $X = \text{Bin}(n,\frac{\lambda}{n})$ for some $\lambda > 0$.\\
+    Then let $n \rightarrow \infty$, we can get a new p.m.f, which is the p.m.f of Poission R.V. :
+    $$ P(X = k) = e^{-\lambda}\frac{\lambda^k}{k!} \textbf{ } \forall k \geq 0$$
+    Denoted by $ X \sim \text{Poission}(\lambda)$
+\end{definition}
+
+\begin{definition}
+    \textbf{Geometry Random Variable}\\
+    There is a coin having probability $ p \in (0,1)$ of coming up heads. Toss the coin util it shows up head. Let $X = \#$ of tosses needed.\\
+    Then $X \sim \text{Geometric}(p)$, then p.m.f. of which is :
+    $$ P(X = k) = (1-p)^{k-1}p \text{ } \forall k \geq 1$$
+    Denoted by $ X \sim \text{Geometric}(p)$
+\end{definition}
+The definition seems to be different from the Geometry Random Variable in Statistics. But they are actually the same.
+
+\textbf{Coupon Collector Problem:}\\
+Pick one card uniformly at random, record the number and then return the card. Repeat until we collect all the $n$ numbers.
+
+What is the average number of trials needed?
+
+\begin{definition}
+    \textbf{Expectation}\\
+    For a discrete random variable, the expectation of $X$ is defined by:
+    $$ E(X) = \Sigma^n_{k=1}kP(X=k)$$
+\end{definition}
+
+\begin{quiz}
+    Jim is conducting random walk on the real line starting from 0. For each time, independently of anything else, he moves one steps to the right with probability p, and to the left with probability $1-p$. Let $X_n$ be the position of Jim at time n. Find $P(X_n = k)$ for each $-n \leq k \leq n$
+\end{quiz}
+
+
+
+
+\section{Lecture 5 Continuous Random Variable 2024.10.12}
+\begin{definition}
+    \textbf{Probability Density Function}\\
+    A non-negative function $f: (-\infty, \infty) \longrightarrow [0,\infty]$ is called a probability density function(p.d.f.), if:
+    $$ \int^{\infty}_{-\infty} f(x) \, dx = 1$$
+\end{definition}
+
+\begin{definition}
+    \textbf{Continuous Random Variable}\\
+    A random variable $X$ is called a continuous random variable if exists a p.d.f. $f$ such that:
+    $$\forall a,b \in \mathbb{R}, \text{ } P(a \leq X \leq b) = \int^b_a f(x) \, dx$$
+
+\end{definition}
+Remark: Let $b=a$ to get:
+$$ P(X=a) = P(a\leq X\leq a) = \int^a_a f(x) \, dx = 0$$
+
+\begin{definition}
+    \textbf{Uniform Random Variable}\\
+    A random variable $X \sim Uniform(\alpha,\beta)$, if the p.d.f. of $X$ is:
+    \[
+    f(x) = \frac{1}{\beta - \alpha} 1_{(\alpha, \beta)}(x) = 
+    \begin{cases} 
+    \frac{1}{\beta - \alpha} & \text{if } \alpha < x <\beta\\
+    0 & \text{, otherwise}  
+    \end{cases}
+    \]
+\end{definition}
+\textbf{Indicator function:} 
+\[
+ 1_A(x) =
+ \begin{cases}
+  1   &  x \in A \\
+  0   &  x \notin A
+ \end{cases}
+\]
+For example: Let $X \sim Unif(1,5)$, find $P(X > 3.5)$\\
+Solution:
+$$ P(X>3.5) = P(X \geq 3.5)$$
+$$ P(X \geq 3.5) = lim_{b \rightarrow \infty}P(3.5 \leq X \leq b)$$
+$$ P(X \geq 3.5) = \int^{\infty}_{3.5} f(x)\, dx = \frac{3}{8}$$
+
+\begin{definition}
+    \textbf{Exponential Randon Variable}\\
+    We say a $X$ is an exponential random variable with parameter $\lambda > 0$ if the p.d.f. is:
+    \[
+    f(x) = 
+    \begin{cases}
+        \lambda e^{-\lambda x} & x \geq 0 \\
+        0 & x < 0
+    \end{cases}
+    \]
+\end{definition}
+
+\begin{definition}
+    \textbf{Memoryless}\\
+    We say a random variable is memoryless if:
+    $$ P(X > t+s | X>t) = P(X > s ) \text{ } \forall t,s>0$$
+\end{definition}
+It is easy to prove that all exponential random variables are memoryless.
+
+\begin{theorem}
+    If $X$ is memoryless, then $X \sim Exp(\lambda) \text{ for some } \lambda > 0$
+\end{theorem}
+For example: Let $X$ be a continuous random variable with p.d.f.
+\[ 
+f(x) =
+\begin{cases}
+    \lambda e^{-\lambda x} & x \geq 0 \\
+    0 & x = 0
+\end{cases}
+\]
+Calculate $P(50 \leq X \leq 150)$
+Solution:
+\begin{enumerate}
+    \item Use $\int^{\infty}_{\infty}f(x) \, dx = 1$, we can get $\lambda = \frac{1}{100}$
+    \item $P(50 \leq X \leq 150) = P(X \geq 50) - P(X > 150) = e^{-\frac{50}{100} - e^{-\frac{150}{100}}}$
+\end{enumerate}
+\begin{definition}
+    \textbf{Gamma function:}
+    $$ \Gamma(\alpha) = \int^{\infty}_0 e^{-y}y^{\alpha-1}\, dy$$
+    Moreover:
+    $$ \text{If } \alpha = n \in \mathbb{N}, \text{ then } \Gamma(n) = (n-1)!$$
+\end{definition}
+
+\begin{definition}
+    \textbf{Gamma Random Variable}\\
+    Let $X$ be a Gamma Random Variable, denoted by $X \sim Gamma(n,\lambda)$,then its p.d.f. is:
+    $$ f(x) = \frac{x^{n-1} e^{-x/\lambda}}{\lambda^n \Gamma(n)}, \quad x > 0$$
+\end{definition}
+In fact, if $X_1, X_2, \dots ,X_n$ are independent $Exp(\lambda)$, then
+$$ X_1 + X_2 + \dots + X_n \sim \text{Gamma}(n, \lambda)$$
+We can understand the Gamma random variable in both two ways.
+\begin{definition}
+    \textbf{Normal Random Variable}\\
+    We say a $X \sim N(\mu, \sigma^2)$ is a normal random variable if the density is:
+    $$ f(x) = \frac{1}{\sqrt{2\pi\sigma^2}}e^{-\frac{(x-\mu)^2}{2\sigma^2}} \textbf{ } \forall -\infty < x < \infty$$
+\end{definition}
+
+\begin{definition}
+    \textbf{Expectation}\\
+    For a continuous random variable $X$, the expectation of $X$ is defined by
+    $$EX = E(X) = E[X] = \int^{\infty}_{\infty} xf(x) \, dx$$
+\end{definition}
+For any function $g$, we have:
+$$ E(g(X)) = \int^{\infty}_{-\infty} g(x)f(x) \, dx$$
+Note: Expectation is actually a integration of a measurement.
+
+\begin{theorem}
+    \textbf{Properties of expectation}\\
+    Let $X$,$Y$ be two random variables:
+    \begin{enumerate}
+        \item $\forall c \in \mathbb{R}, E(c) = c$
+        \item If $X \geq 0$, then $EX \geq 0$
+        \item If $c \in \mathbb{R}, E(cX) = cEX$
+        \item $E[X+Y] = E[X] + E[Y]$
+    \end{enumerate}
+    By properties 3 and 4, we know that expectation is \textbf{linear}.
+\end{theorem}
+For example: $X \sim Unif(0,1)$
+$$ EX = \int^{\infty}_{\infty} xf(x) \, dx = \frac{1}{2}$$
+\begin{definition}
+    \textbf{Variance}\\
+    The variance of $X$ is given by:
+    $$ Var(X) = E[(X - EX)^2]$$
+    Moreover, we could also calculate by:
+    $$ Var(X) = E(X^2) - (EX)^2$$
+\end{definition}
+
+\begin{quiz}
+    Prove
+    $$ \mu = \int^\infty_{-\infty}xf(x) \, dx \text{ and } \sigma^2 = \int^\infty_{-\infty}(x-\mu)^2f(x) \, dx$$
+    where:
+    $$ f(x) = \frac{1}{\sqrt{2\pi\sigma^2}}e^{-\frac{(x - \mu)^2}{2\sigma^2}}$$
+\end{quiz}
+
+
+\section{Lecture 6 Expectation and Variance of special random variable}
+\begin{theorem}
+    \textbf{Expectation and Variance of C.R.V}
+    \begin{enumerate}
+        \item For $X \sim Exp(\lambda)$, we have:
+        $$ E(X) = \frac{1}{\lambda} \text{ and } Var(X) = \frac{n}{\lambda}$$
+        \item For $X \sim Gamma(\alpha, \lambda)$, we have:
+        $$ E(X) = \frac{1}{\lambda}\frac{\Gamma(\alpha+1)}{\Gamma(\alpha)}\text{ and } Var(X) = \frac{1}{\lambda^2}\frac{\Gamma(\alpha+2)}{\Gamma(\alpha)} - (\frac{1}{\lambda}\frac{\Gamma(\alpha+1)}{\Gamma(\alpha)})^2$$
+        \item For $X \sim N(\mu, \sigma^2)$, we have:
+        $$ E(X) = \mu \text{ and } Var(X) = \sigma^2$$
+    \end{enumerate}
+\end{theorem}
+
+\begin{theorem}
+    \textbf{Expectation and Variance of D.R.V}
+    \item For $X \sim Bernoulli(p)$, we have:
+    $$ E(X) = p \text{ and } Var(X) = p(1-p)$$
+    \item For $X \sim Bin(n, p)$, we have:
+    $$ E(X) = np \text{ and } Var(X) = np(1-p)$$
+    \item For $X \sim Poission(\lambda)$, we have:
+    $$ E(X) = \lambda \text{ and } Var(X) = \lambda$$
+    \item For $X \sim Geo(p)$, we have:
+    $$ E(X) = \frac{1-p}{p} \text{ and } Var(X) =\frac{1-p}{p^2}$$
+\end{theorem}
+
+\begin{definition}
+    \textbf{Cumulative Distribution Function}\\
+    For a random variable $X$, the cumulative distribution function(c.d.f.) of $X$ is:
+    $$ F_X(b) = P(X \leq b)$$
+\end{definition}
+We notice that:
+\begin{enumerate}
+    \item For discrete random variable:
+    $$ F(b) = \Sigma^{[b]}_{m = -\infty}P(X = m) $$
+    \item For continuous random variable:
+    $$ F'(b) = f(b)$$
+\end{enumerate}
+But random variable have forms instead of these two kinds. See the quiz below:
+\begin{quiz}
+    The cumulative distribution function of $X$ is
+    \[
+    F(x) = 
+    \begin{cases}
+        0 & x < 0 \\
+        \frac{x}{2} & 0 \leq x < 1 \\
+        \frac{2}{3} & 1 \leq x < 2 \\
+        \frac{11}{12} & 2 \leq x < 3\\
+    \end{cases}
+    \]
+    \begin{enumerate}
+        \item[(i)] $P(x < 3)$
+        \item[(ii)] $P(x = 1)$
+        \item[(iii)] $P(x > \frac{1}{2})$
+    \end{enumerate}
+\end{quiz}
+
+\begin{theorem}
+    \begin{enumerate}
+        \item If $A_n \subset A_{n+1}, \forall n \geq 1$, then:
+    $$P(\bigcup^{\infty}_{n=1}) = lim_{n \rightarrow \infty}P(A_n)$$
+        \item If $B_{n+1} \subset B_{n}, \forall n \geq 1$, then:
+    $$P(\bigcap^{\infty}_{n=1}) = lim_{n \rightarrow \infty}P(B_n)$$
+    \end{enumerate}
+\end{theorem}
+
+\begin{theorem}
+    \textbf{Properties of Cumulative Distribution Function:}\\
+    Let $F$ be a cumulative distribution function.
+    \begin{enumerate}
+        \item $F$ is a non-decreasing function, i.e.:
+        $$ \forall \text{ } a < b, F(a) \leq F(b)$$
+        \item $lim_{b\rightarrow-\infty}F(b) = 0, lim_{b\rightarrow\infty}F(b) = 1$
+        \item $F$ is right continuous, i.e.:
+        $$\forall \text{ } b \in \mathbb{R}, \forall lim_{n \rightarrow \infty}b_n = b, \text{ we have } lim_{n \rightarrow \infty}F(b_n) = F(b) $$
+        \item $F$ has left limits, i.e.:
+        $$\forall b \in \mathbb{R}, \forall lim_{n \rightarrow \infty}(a_n) = a, \text{ we have } lim_{n \rightarrow \infty}F(a_n) = F(a^{-}) = F(x < a)$$
+    \end{enumerate}
+\end{theorem}
+Use the \textbf{theorem6.3}, we could easily prove.
+
+For example, we take $X \sim Bernoulli(p)$, then:
+\[
+F_X(b) = 
+\begin{cases}
+    1 & b \geq 1 \\
+    1-p & 0 \leq b < 1 \\
+    0, & b < 0
+\end{cases}
+\]
+It is a very traditional step function.
+
+
+\section{Lecture 7 Function of Random Varibale 2024.10.17}
+\begin{theorem}
+    If $X \sim N(\mu, \sigma^2)$, then:
+    $$Y = aX+b \sim N(a\mu + b, a^2\sigma^2), a,b \in \mathbb{R}$$
+\end{theorem}
+
+
+\begin{quiz}
+    If the pdf of $X$ is:
+    $$f(x) = \frac{1}{\pi(1+x^2)}, \quad -\infty < x < \infty$$
+    Show that $Y = \frac{1}{X}$ has the same pdf.
+\end{quiz}
+
+\begin{theorem}
+    Let $X$ be a continuous random variable with pdf $f_X(x)$. Suppose $g(x)$ is a strictly monotonic( increasingly or decreasing ), differentiable function. Then $Y = g(X)$ has a pdf:
+    \[
+    f_Y(y) = 
+    \begin{cases}
+        f_X(g^{-1}(y))|\frac{d}{dy}g^{-1}(y)| & \text{ if } y = g(x) \text{ for some } x.\\
+        0 & if y \neq g(x), \forall \text{ } x
+    \end{cases}
+    \]
+\end{theorem}
+Proof: $\forall y \in \mathbb{R}, F_Y(y) = P(Y \leq y) = P(g(x) \leq y)$. Assume $g$ is increasing. Then $g(X) \leq y \leftrightarrow X \leq g^{-1}(y)$. So, $F_Y(y) = P(X \leq g^{-1}(y)) = F_X(g^{-1}(y))$.
+
+
+Theorem7.2 isn't useful since it has too many restrictions.
+
+Now we do a summary on how to find a probability density function of $Y = g(X)$
+\begin{enumerate}
+    \item Find the cdf of $Y = g(X)$, which means do some simple calculation.
+    \item Differentiate to find the density.
+    \item Specify in what region the result holds.
+\end{enumerate}
+
+\begin{theorem}
+    Let $F(x)$ be the cdf of any random variable. Define for each $x \in (0,1)$:
+    $$ F^{-1}(x) = sup\{y \in \mathbb{R}: F(y) < x\}$$
+\end{theorem}
+
+
+
+
+
+
+\section{Lecture 8 Multi-variables 2024.10.24}
+
+\begin{definition}
+    \textbf{Joint cumulative distribution function:}\\
+    For any random variables $X$, $Y$ the joint cumulative distribution function of $X$ and $Y$ is defined by:
+    $$ F(a, b) = P(X \leq a, Y \leq b)$$
+\end{definition}
+Notice that:
+$$ P(X \leq a) = lim_{b \rightarrow \infty}(P(X \leq a, Y \leq b))$$
+Denote as $P(X \leq a) = F(a, \infty)$
+
+For discrete multi random variables, we can define:
+\begin{definition}
+    \textbf{Joint probability mass function}:
+    When $X$, $Y$ are both discrete random variables with p.m.f is given by $p_X,p_Y$.\\
+    The joint probability mass function:
+    $$ p(X,Y) = P(X = x, Y = y)$$
+\end{definition}
+
+Similar to a single variable, we can also define independence in multi-variables.
+\begin{definition}
+    \textbf{Independent random variables}\\
+    We say $X$, $Y$ are independent if $\forall A,B \in \mathbb{R}$, 
+    $$ P(X \in A, Y \in B) = p(X \in A)P(Y \in B)$$
+\end{definition}
+
+From the two definitions above, we could induce that:
+\begin{theorem}
+    Two discrete random variables $X,Y$ are independent if and only if $\forall x,y \in \mathbb{R}$,
+    $$ p(x,y) = P_X(x)P_Y(y)$$
+\end{theorem}
+
+
+
+\begin{definition}
+    \textbf{Jointly continuous}\\
+    We say $X$ and $Y$ are jointly continuous if there exist a function $f(x,y0$ such that 
+    $$\forall \text{ } C \subset \mathbb{R}^2, P((X,Y) \in C) = \int_{(x,y) \in C}f(x,y) \,dxdy$$
+\end{definition}
+The function \textbf{f(x,y)} is called the\textbf{ joint probability distribution funcition }of $X$ and $Y$.\\
+
+\begin{definition}
+    \textbf{ joint cumulative distribution function: }\\
+    The joint c.d.f. is then given by:
+    $$ f_X(x) = \int^a_{-\infty}\int^b_{-\infty} f(x,y)\, dxdy$$
+\end{definition}
+The definition of independence is still the same as before.
+
+\begin{definition}
+    \textbf{Expectation}\\
+    For any joint p.m.f $p(x,y)$ or joint p.d.f $f(x,y)$, we have a $\forall$ function $g : \mathbb{R}\times\mathbb{R} \longrightarrow \mathbb{R}$,
+    $$ E(g(X,Y)) = \Sigma_m\Sigma_n(g(m,n)p(m,n))$$
+\end{definition}
+
+For example:
+$$ g(X,Y) = 1_{X \in A}1_{Y \in B}$$
+$$ E[g(X,Y)] = E[1_{X \in A, Y \in B}] = P(X \in A, Y \in B) = \Sigma_m\Sigma_np(m,n)$$
+Or, in continuous situations:
+$$ E[g(X,Y)] = \int^\infty_{-\infty} \int^\infty_{-\infty}g(X,Y)f(X,Y) \, dxdy$$
+We need to notice that $1_{X \in A}$ and $1_{Y \in B}$ are beneficial \textbf{Characteristic functions}.
+\bigskip
+
+Another Example: A man and a woman promised to meet at $12:30$P.M.. Assume the time they arrive are $X$ and $Y$ independently and satisfy:
+$$ X \sim \text{Unif}(12:15, 12:45) $$
+$$ Y \sim \text{Unif}(12:00, 1:00) $$
+\begin{enumerate}
+    \item Calculate $P(\text{the man arrive first})$
+    \begin{equation*}
+        X \sim \text{Unif}(-0.5, 0.5)\\
+        Y \sim \text{Unif}(-1, 1)
+    \end{equation*}
+    \begin{align*}
+        P(X<Y) &= \int 1_{(X<Y)} \cdot f(x,y) \text{d}x \: \text{d}y\\
+               &= \frac{1}{2} \int_{-\frac{1}{2}}^{\frac{1}{2}} \text{d}x \int_{x}^{1} \text{d}y\\
+               &= \frac{1}{2} \int_{-\frac{1}{2}}^{\frac{1}{2}} (1-x) \ \text{d}x\\
+               &= \frac{1}{2}
+    \end{align*}
+    \item Find the probability that the first to arrive waits no longer than $5$ minutes.
+    \begin{align*}
+        P(|X-Y| < \frac{5}{30}) &= \iint 1_{(|X-Y|<\frac{1}{6})} \cdot f(x,y) \ \text{d}x \: \text{d}y\\
+                                &= \frac{1}{2} \int_{-\frac{1}{2}}^{\frac{1}{2}} \text{d}x \int_{x-\frac{1}{6}}^{x+\frac{1}{6}} \text{d}y\\
+                                &= \frac{1}{6}
+    \end{align*}
+\end{enumerate}
+
+
+\begin{quiz}
+    The joint probability distribution function: of $X,Y$ is :
+    \[
+    f(x,y) = 
+    \begin{cases}
+        c & \text{ if } x^2 + y^2 \leq R^2\\
+        0 & \text{ otherwise }
+    \end{cases}
+    \]
+    \begin{enumerate}
+        \item[a)] Find $c$
+        \item[b)] Find the marginal probability distribution functions of $f_X(x)$ and $f_Y(y)$.
+    \end{enumerate}
+\end{quiz}
+This is the uniform distribution in circle plates.
+
+\begin{definition}
+    \textbf{Bivariate Normal Distribution}\\
+    The joint probability of bivariate normal distribution is given by:
+    $$ f(x,y) = \frac{1}{2\pi \sigma_x\sigma_y\sqrt{1-\rho^2}} \times exp\{-\frac{1}{2(1-\rho^2)^2}[(\frac{x-\mu_x}{\sigma_x})^2 + (\frac{y - \mu_y}{\sigma_y})^2 - 2\rho\frac{(x - \mu_x)(y - \mu_y)}{\sigma_x\sigma_y}\}$$
+    We denote it as $(X,Y) \sim N(\mu_x,\mu_y; \sigma^2_x,\sigma^2_y;\rho)$
+\end{definition}
+
+\begin{definition}
+    \textbf{Covariance}\\
+    The covariance of $X,Y$ is:
+    $$ Cov(X,Y) := E[(X - EX)(Y - EY)]$$
+\end{definition}
+By simple calculation, we know that:
+$$ Cov(X,X) = E[(X-EX)^2] = Var(X)$$
+
+Now that we have expanded a single variable into bivariable, how can we get higher dimensions?
+
+We could use \textbf{Matrix Form} to gain a beautiful expression of any finite dimension normal distribution.\\
+If we let:
+\begingroup
+\renewcommand{\arraystretch}{1.5}
+\[
+\begin{array}{lrl}
+            & \vec{x} &= (x,y)\\
+            & \vec{\mu} &= (\mu_{x}, \mu_{y})\\
+            & \Sigma &= 
+                    \begin{bmatrix}
+                        \sigma_{x}^{2} & \rho \sigma_{x}\sigma_{y} \\
+                        \rho \sigma_{x}\sigma_{y} & \sigma_{y}^{2}
+                    \end{bmatrix}\\
+\Rightarrow & \text{det}(\Sigma) &= \sigma_{x}^{2} \sigma_{y}^{2} (1-\rho^{2})\\
+            & \Sigma^{-1} &= \cfrac{1}{1-\rho^{2}} \cdot
+                    \begin{bmatrix}
+                        \cfrac{1}{\sigma_{x}^{2}} & - \cfrac{\rho}{\sigma_{x} \sigma_{y}}\\
+                        - \cfrac{\rho}{\sigma_{x} \sigma_{y}} & \cfrac{1}{\sigma_{y}^{2}}
+                    \end{bmatrix}
+\end{array}
+\]
+\endgroup
+
+Then we have:
+\[
+f(x,y) = \frac{1}{2\pi \sqrt{\text{det}(\Sigma)}} \cdot \text{exp} \left\{ -\frac{1}{2} (\vec{x} - \vec{\mu}) \Sigma^{-1} (\vec{x} - \vec{\mu})^{T}  \right\}
+\]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\newpage
+\appendix
+
+
+\section{Answer for Quizes}
+\begin{enumerate}
+
+
+
+\item \textbf{\large Quiz 1}
+    \begin{enumerate}
+        \item 896
+        \item 1000
+        \item 910
+    \end{enumerate}
+
+\item \textbf{\large Quiz 2}
+    \begin{enumerate}
+        \item $\frac{\binom{N}{n}}{N^n}$
+        \item $\frac{\binom{N+n-1}{n}}{N^n}$
+    \end{enumerate}
+
+\item \textbf{\large Quiz 3}
+    \begin{enumerate}
+        \item $\frac{1}{3}$
+        \item $\frac{1}{5}$
+        \item 1
+    \end{enumerate}
+
+\item \textbf{\large Quiz 4}
+    \[
+    P(X_n = k) =
+    \begin{cases}
+        \binom{n}{\frac{n+k}{2}}p^{\frac{n+k}{2}}(1-p)^{\frac{n-k}{2}} & \text{ if } n+k \text{ odd } \\
+        0 & \text{ if } n+k \text{ even }
+    \end{cases}
+    \]
+
+
+\item \textbf{\large Quiz 5}
+
+
+\item \textbf{\large Quiz 6}
+\begin{enumerate}
+    \item[(i)] $\frac{11}{12}$
+    \item[(ii)] $\frac{1}{6}$
+    \item[(iii)] $\frac{3}{4}$
+\end{enumerate}
+
+\item \textbf{\large Quiz 7}
+
+
+\item \textbf{\large Quiz 8}
+\begin{enumerate}
+    \item $c \ \frac{1}{\pi R^2}$
+    \item $f_X(x) = \frac{2}{\pi R^2}\sqrt{R^2 - x^2}$;  $f_Y(y) = \frac{2}{\pi R^2}\sqrt{R^2 - y^2}$
+\end{enumerate}
+
+
+\end{enumerate}
+
+
+\newpage
+
+\section{Extension Problem}
+\subsection{Coupon Collector Problem}
+See the original description in Lecture 4.
+
+
+
+
+\newpage
+
+% ------------------------------------------------------------------------------
+% Reference and Cited Works
+% ------------------------------------------------------------------------------
+
+\bibliographystyle{IEEEtran}
+
+\begin{thebibliography}{1}
+
+\bibitem{wikipedia_coupon}
+Wikipedia contributors, ``Coupon Collector's Problem,'' Wikipedia, The Free Encyclopedia. [Online]. Available: \url{https://en.wikipedia.org/wiki/Coupon_collector%27s_problem}. [Accessed: [2024.10.23]].
+
+\end{thebibliography}
+% ------------------------------------------------------------------------------
+
+
+\end{document}
