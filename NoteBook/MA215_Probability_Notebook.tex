@@ -619,17 +619,25 @@ Now we do a summary on how to find a probability density function of $Y = g(X)$
     For any random variables $X$, $Y$ the joint cumulative distribution function of $X$ and $Y$ is defined by:
     $$ F(a, b) = P(X \leq a, Y \leq b)$$
 \end{definition}
+Obviously, by the axiom of probability, we should have:
+$$ \lim_{a, b \rightarrow \infty}(F(a,b)) = 1 $$
 Notice that:
 $$ P(X \leq a) = lim_{b \rightarrow \infty}(P(X \leq a, Y \leq b))$$
-Denote as $P(X \leq a) = F(a, \infty)$
+Denote as $P(X \leq a) = F(a, \infty)$, and this is defined as \textbf{Marginal Probability Density Funcition}.
 
-For discrete multi random variables, we can define:
+For discrete multi-random variables, we can define:
 \begin{definition}
     \textbf{Joint probability mass function}:
     When $X$, $Y$ are both discrete random variables with p.m.f is given by $p_X,p_Y$.\\
     The joint probability mass function:
     $$ p(X,Y) = P(X = x, Y = y)$$
 \end{definition}
+Similar to the definition above, we have \textbf{Marginal Probability Mass Function:}
+\begin{align*}
+    p_X(x) = \Sigma_yP(X = x, Y = y).
+\end{align*}
+
+
 
 Similar to a single variable, we can also define independence in multi-variables.
 \begin{definition}
@@ -758,12 +766,57 @@ Then we have:
 \[
 f(x,y) = \frac{1}{2\pi \sqrt{\text{det}(\Sigma)}} \cdot \text{exp} \left\{ -\frac{1}{2} (\vec{x} - \vec{\mu}) \Sigma^{-1} (\vec{x} - \vec{\mu})^{T}  \right\}
 \]
+This is a very beautiful structure with general form.
 
-
-
-
-
-
+\begin{theorem}
+    In Bivariate Normal Distribution, the $X,Y$ independent are equivalent with:
+    \begin{enumerate}
+        \item $\rho = 0$
+        \item $Cov(X,Y) = 0$
+    \end{enumerate}
+\end{theorem}
+\section{Lecture 9 2024.10.29}
+To understand the structure below better, we introduce the convolution of two functions. 
+\begin{definition}
+    \textbf{Convolution:}
+    Let $f$ and $g$ be two functions 
+    \begin{equation}
+    (f * g)(t) = \int_{-\infty}^{\infty} f(\tau) g(t - \tau) \, d\tau
+    \end{equation}
+\end{definition}
+\begin{theorem}
+    \textbf{Sum of independent random variables}\\
+    Let $X,Y$ be independent continuous random variables. And $Z = X + Y$, then we have:
+    \begin{equation*}
+        F_Z(z) = \int^\infty_{-\infty}F_X(z-y)f_Y(y) dy
+    \end{equation*}
+    Differentiate to obtain:
+    \begin{align*}
+        f_Z(z) &= \int^\infty_{-\infty}f_X(z-y)f_Y(y) dy \\
+               &= (f_X * f_Y)(z)
+    \end{align*}
+\end{theorem}
+Now we compute an example:\\
+$X,Y \sim Exp(\lambda)$, and they are independent.\\
+Compute the p.d.f. of $X+Y$: \\
+\textbf{Solution:}
+\begin{align*}
+    f_{X+Y}(z)  &= \int^\infty_{-\infty}f_x(z-y)f_Y(y) \, dy \\
+                &= \int^z_{0}\lambda e^{\lambda(z-y)} \times \lambda e^{-\lambda y} \, dy \\
+                &= \lambda^2 e^{-\lambda z} z
+\end{align*}
+By observation, we can easily notice that $X + Y \sim Gamma(2, \lambda)$
+\begin{quiz}
+    If the joint p.d.f. of $(X,Y)$ is :
+    \begin{align*}
+        f(x,y) = 
+        \begin{cases}
+            \frac{1}{2}(x+y)e^{-(x+y)}, & 0 < x,y < \infty \\
+            0 & \text{ otherwise}
+        \end{cases}
+    \end{align*}
+    Find the p.d.f. of $Z = X+Y$.
+\end{quiz}
 
 
 
@@ -838,7 +891,8 @@ f(x,y) = \frac{1}{2\pi \sqrt{\text{det}(\Sigma)}} \cdot \text{exp} \left\{ -\fra
     \item $f_X(x) = \frac{2}{\pi R^2}\sqrt{R^2 - x^2}$;  $f_Y(y) = \frac{2}{\pi R^2}\sqrt{R^2 - y^2}$
 \end{enumerate}
 
-
+\item \textbf{\large Quiz 9}
+    \item $f_Z(z) = \frac{1}{2}z^2e^{-z}$
 \end{enumerate}
 
 
