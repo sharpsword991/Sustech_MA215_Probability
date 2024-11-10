@@ -1,0 +1,499 @@
+\documentclass[hidelinks]{article}
+\usepackage[a4paper, total={7in, 10in}]{geometry}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usepackage{tkz-euclide}
+\usepackage[ruled,vlined,linesnumbered]{algorithm2e}
+\usepackage[unicode]{hyperref}
+\usepackage[all]{hypcap}
+\usepackage{fancyhdr}
+\usepackage{amssymb} %数学符号宏包
+\usepackage{float}     % 引入float宏包
+\usepackage{setspace} %间距
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\usepackage{listings} % 导入listingsutf8包
+\usepackage{xcolor}   % 导入xcolor包以支持代码高亮
+
+
+\lstset{
+  language=C++,
+  basicstyle=\ttfamily,
+  keywordstyle=\color{blue},
+  commentstyle=\color{green},     % 设置注释颜色
+  stringstyle=\color{red},
+  breaklines=true,
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  showstringspaces=false,
+  extendedchars=false,            % 禁用扩展字符
+  inputencoding=utf8,             % 使用 UTF-8 编码
+  literate={#}{\#}1,               % 转义 #
+  literate= {（}{{(}}1 {）}{{)}}1 {；}{{;}}1 {，}{{,}}1 {。}{{.}}1 {‘}{{'}}1 {’}{{'}}1
+}
+
+\title{\textbf{MA215 Probability Homework-6}}
+\author{HONGLI YE 12311501}
+\date{November 7$^{th}$ 2024}
+
+\begin{document}
+
+\setstretch{1.2} % 设置1.2倍行间距
+\hypersetup{bookmarksnumbered=true,}
+\pagecolor{white}
+\color{black}
+\maketitle
+
+
+%% For Algotirhm.
+\SetAlgoNoLine % 去除线段
+\SetAlgoNlRelativeSize{0} % 去除左边的线条
+\SetAlgoNoEnd % 去除 `End` 标记
+%%------
+
+\begin{Large}
+\tableofcontents
+\end{Large}%
+\pagebreak
+
+\section{Question 1}
+If the joint probability mass function of $X, Y$ is given by:
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|c|}
+        \hline
+        $X\backslash Y$ & -1 & 0 & 1\\ \hline
+        -1 & a   & 0   & 0.2\\ \hline
+        0  & 0.1 & b   & 0.1\\ \hline
+        1  & 0   & 0.2 & c  \\ \hline
+    \end{tabular}
+    \caption{Question 1}
+\end{table}
+and $P(X \times Y \neq 0) = 0.4, P(X \leq 0|Y \leq 0) = \frac{2}{3}$.
+\begin{enumerate}
+    \item[a)] Find the values of $a, b, c$.
+    \item[b)] Compute the marginal probability mass function of $X$ and $Y$ .
+    \item[c)] Find the probability mass function of $X + Y$ .
+\end{enumerate}
+\textbf{Answer:}
+\begin{enumerate}
+    \item[a)] Obviously, $X$ and $Y$ are two discrete random variables. By the axiom of probability, we have:
+    $$ \Sigma_{(x,y) \in S}(P(X = x,Y = y)) = 1$$
+    Observing the table, we could get the following equation by counting one by one:
+    \begin{equation*}
+        0.1 + 0.1 + 0.2 + 0.2 + a + b + c = 1 \tag{1}         
+    \end{equation*}
+    ANd for another two conditions: $P(X \times Y \neq 0) = 0.4, P(X \leq 0|Y \leq 0) = \frac{2}{3}$.
+    \begin{align*}
+        a + 0.2 + c + 0 = 0.4 \tag{2} \\
+        \frac{a+b+0.1}{a+b+0.1+0.2} = \frac{2}{3} \tag{3}        
+    \end{align*}
+    So together the 3 equations, we could get:
+    $\begin{cases}
+        a = 0.1 \\
+        b = 0.2 \\
+        c = 0.1
+    \end{cases}$
+    
+    \item[b)] By definition, we could simply calculate:
+    \[
+    p_X(x) =
+    \begin{cases}
+        0.3 & x = -1 \\
+        0.4 & x = 0  \\
+        0.3 & x = 1  \\
+    \end{cases}
+    \]
+    \[
+    p_Y(y) =
+    \begin{cases}
+        0.2 & y = -1 \\
+        0.4 & y = 0  \\
+        0.4 & x = 1  \\
+    \end{cases}
+    \]
+    \item[c)] $X + Y \in \{-2,-1,0,1,2\}$
+    \[
+    P_{X+Y}(X+Y = m) = 
+    \begin{cases}
+     0.1   &  m = -2 \\
+     0.1 &  m = -1 \\
+     0.4 &  m = 0  \\
+     0.2 &  m = 1  \\
+     0.2 &  m = 2
+    \end{cases}
+    \]
+\end{enumerate}
+
+
+
+
+
+
+
+\section{Question 2}
+The joint probability density function of $(X, Y)$ is given by:
+\[
+f(x,y) = 
+\begin{cases}
+    cx^4y & x^4 < y < 1 \\
+    0 & otherwise
+\end{cases}
+\]
+where $c > 0$ is some constant.
+\begin{enumerate}
+    \item[a)]  Find the marginal probability density functions $f_X$ and $f_Y$.
+    \item[b)]  Calculate $EX$ and $EY$ .
+\end{enumerate}
+
+\textbf{Answer:}\\
+    First, by the property of probability dense function, we have:
+    \begin{equation*}
+        \int^\infty_{-\infty}\int^\infty_{-\infty} f(x,y) \, dxdy = 1
+    \end{equation*}
+    By simplifying the equation, we could get:
+    \begin{align*}
+        \int^{1}_{-1}dx\int^{1}_{x^4} cx^4y \, dy &= 1 \\
+        \int^{1}_{-1} \frac{1}{2}c(x^4 - x^{12}) \, dx &= 1  \\
+        \frac{c}{5} - \frac{c}{13} &= 1 \\
+        c &= \frac{65}{8}
+    \end{align*}
+    \begin{enumerate}
+        \item[a)] By definition:
+        \begin{align*}
+        f_{X}(m) = \int^\infty_{-\infty} f(m,y) \, dy \\
+        f_X(m) = 
+        \begin{cases}
+        0    & \text{ otherwise}\\
+        \frac{65}{16}m^4 - \frac{65}{16}m^{12} & -1 < m < 1 \\
+        \end{cases}
+        \end{align*}
+        Similarly, we could get $f_Y(n)$
+        \begin{align*}
+        f_{Y}(n) = \int^\infty_{-\infty} f(x,n) \, dx \\
+        f_{X}(n) = 
+        \begin{cases}
+        0 & \text{ otherwise}\\
+        \frac{13}{4}y^{\frac{9}{4}}  & 0 < n < 1 \\
+        \end{cases}
+        \end{align*}
+        \item[b)] By the definition of expectation of continuous random variable:
+        \begin{align*}
+            EX &= \int^{\infty}_{-\infty} xf_X(x)\, dx = \int^1_{-1} \frac{65}{16}x(x^4 - x^{12}) \, dx  \\
+            EY &= \int^{\infty}_{-\infty} yf_Y(y)\, dy = \int^1_0 y\frac{13}{4}y^{\frac{9}{4}} \, dy
+        \end{align*}
+        Since $\frac{65}{16}x(x^4 - x^{12})$ is an odd function, then we know:
+        $$ EX = 0$$
+        And do some simple calculation on $EY$, we could get:
+        \begin{align*}
+            EY &= \int^1_0 y\frac{13}{4}y^{\frac{9}{4}} \, dy \\
+               &= \frac{13}{4}\int^1_0 y^{\frac{13}{4}} \, dy \\
+               &= \frac{13}{4} \times \frac{4}{17} [y^{\frac{17}{4}}]|^1_0 \\
+               &= \frac{13}{17}
+        \end{align*}
+    \end{enumerate}
+    
+\section{Question 3}
+You spend the night in a teepee shaped as a right circular cone whose base is a disk of
+radius $r$ centered at the origin and the height at the apex is $h$. A fly is buzzing around
+the teepee at night. At some time point the fly dies in mid-flight and falls directly on
+the floor of the teepee at a random location $(X, Y )$. Assume that the position of the
+fly at the moment of its death was uniformly random in the volume of the teepee.
+\begin{enumerate}
+    \item[a)] Derive the joint probability density function $f_{XY}(x, y)$ of the point $(X, Y )$ where you find the dead fly in the morning.
+    \item[b)] Let $Z$ be the height from which the dead fly fell to the floor. Find the
+    probability density function $f_Z(z)$ of $Z$.
+\end{enumerate}
+\textbf{Answer:}
+\begin{enumerate}
+    \item[a)] Let $R = \sqrt{x^2 + y^2}$, and $S = \{(x,y) | x^2 + y^2 \leq r^2\}$by the symmetry properties. We know that for those points with the same $R$, we have the same probability. \\
+    Since the position of the fly at the moment of its death was uniformly random in the volume of the teepee. We know that: 
+    \[
+    P_{XYZ}(x,y,z) = 
+    \begin{cases}
+        \frac{3}{\pi r^2h} & 0 < \frac{zr}{r - \sqrt{x^2 + y^2}} \leq  h\\
+        0 & \text{ otherwise }
+    \end{cases}
+    \]
+    Then we have:
+    \begin{align*}
+        f_{XY}(x,y) &= \int^\infty_{-\infty} P_{XYZ}(x,y,z) \, dz \\
+                    &= \int^{\frac{h(r - \sqrt{x^2 + y^2})}{r}}_{0} \frac{3}{\pi r^2h} \, dz \\
+                    &= \frac{h(r - \sqrt{x^2 + y^2})}{r} \times \frac{3}{\pi r^2h} \\
+                    &= \frac{3(r - \sqrt{x^2 + y^2})}{\pi r^3}
+    \end{align*}
+
+    \item [b)] By observing the structure of the problem, we could directly give the formula:
+    \begin{equation*}
+        F_Z(z) =
+        \begin{cases}
+            0 & z \leq 0 \\
+            1 - (\frac{h-z}{h})^3 & 0 < z < h\\
+            1 & h \leq z
+        \end{cases}
+    \end{equation*}
+    Differentiate to obtain:
+    \begin{equation*}
+        f_Z(z) = 
+        \begin{cases}
+            -\frac{3}{h}(\frac{h-z}{h})^2 & 0 < z < h\\
+            0 & \text{ otherwise }
+        \end{cases}
+    \end{equation*}
+\end{enumerate}
+
+
+
+
+
+
+
+
+
+
+
+\section{Question 4}
+ If $X$ is exponential with rate $\lambda$, find:
+ \begin{equation*}
+     P([X] = n, X - [X] \leq x)
+ \end{equation*}
+ for $n \in \mathbb{Z} $ with $n \geq 0$ and $x \in \mathbb{R}$ with $x > 0$. Here $[x]$ is defined as the largest integer less than or equal to $x$.
+ 
+\textbf{Answer:}\\
+By the definition of $[x]$, we know that:
+$$ 0 \leq x - [x] < 1 $$
+Since $X \sim Exp(\lambda)$
+\begin{align*}
+    f_X(x) = 
+    \begin{cases}
+        \lambda e^{-\lambda x} & x > 0 \\
+        0 & x \leq 0
+    \end{cases}
+\end{align*}
+Let $p(x,n) = P([X] = n, X - [X] \leq x)$
+Then we have:
+\begin{align*}
+    p(x,n) &= P(n \leq X < n+1, n \leq X < n+x) \\
+           &= P(n \leq X < min(n+1,n+x))  \\
+           &=
+           \begin{cases}
+           0    & x \leq 0 \\
+           P(n \leq X < n+x)    & 0 < x \leq 1 \\
+           P(n \leq X < n+1)    & 1 < x
+           \end{cases}
+\end{align*}
+Then we do some simple calculations:
+\begin{align*}
+    p(x,n) = 
+    \begin{cases}
+           0    & x \leq 0 \\
+           e^{-\lambda n}(1 - e^{-\lambda x})    & 0 < x \leq 1 \\
+           e^{-\lambda n}(1 - e^{-\lambda})    & 1 < x
+           \end{cases}
+\end{align*}
+
+
+
+
+
+\section{Question 5}
+If $X$ and $Y$ are independent exponential random variables with parameters $\lambda_1, \lambda_2,$ express the density function of:
+\begin{enumerate}
+    \item $Z = X\backslash Y$
+    \item $Z = XY$
+\end{enumerate}
+\textbf{Answer:}
+By definition, we know:
+\begin{align*}
+    f_X(x) = 
+    \begin{cases}
+        \lambda_1 e^{-\lambda_1 x} & x \geq 0 \\
+        0 & x < 0
+    \end{cases}
+    \text{  and  }
+    f_Y(y) = 
+    \begin{cases}
+        \lambda_2 e^{-\lambda_2 y} & y \geq 0 \\
+        0 & y < 0
+    \end{cases}
+\end{align*}
+\begin{enumerate}
+    \item Since $X,Y,Z$ are all continuous random variables, we shall calculate $F_Z(z)$ first.
+    \begin{align*}
+        F_Z(z)  &= P(X \leq Yz)   \\
+                &= \int^\infty_{0}dy\int^{zy}_{0} f_X(x)f_Y(y) \, dx \\
+                &= \int^\infty_{0}dy\int^{zy}_{0} \lambda_1 e^{-\lambda_1 x}\lambda_2 e^{-\lambda_2 y} \, dx \\
+                &=\lambda_2\int^\infty_{0}dy\int^{zy}_{0} e^{-(\lambda_1 x+\lambda_2 y)} \, d(\lambda_1 x + \lambda_2 y) \\
+                &=\lambda_2\int^\infty_{0} e^{-\lambda_2y} - e^{-(\lambda_1 zy+\lambda_2 y)} \,dy \\
+                &= \frac{\lambda_1 z}{\lambda_1 z + \lambda_2}
+    \end{align*}
+    Differentiate to obtain:
+    \begin{align*}
+        f_Z(z) = 
+        \begin{cases}
+            0 & z \leq 0 \\
+            \frac{\lambda_1 \lambda_2}{(\lambda_1 z + \lambda_2)^2} & z > 0
+        \end{cases}
+    \end{align*}
+    
+    \item Since $X,Y,Z$ are all continuous random variables, we shall calculate $F_Z(z)$ first.
+    \begin{align*}
+        F_Z(z)  &= P(X \leq z/Y)   \\
+                &= \int^\infty_{0}dy\int^{z/y}_{0} f_X(x)f_Y(y) \, dx \\
+                &= \int^\infty_{0}dy\int^{z/y}_{0} \lambda_1 e^{-\lambda_1 x}\lambda_2 e^{-\lambda_2 y} \, dx \\
+                &=\lambda_2\int^\infty_{0}dy\int^{z/y}_{0} e^{-(\lambda_1 x+\lambda_2 y)} \, d(\lambda_1 x + \lambda_2 y) \\
+                &=\lambda_2\int^\infty_{0} e^{-\lambda_2y} - e^{-(\lambda_1 \frac{z}{y}+\lambda_2 y)} \,dy \\
+                &= 1 - \lambda_2 \int^\infty_0 e^{-(\lambda_1 \frac{z}{y}+\lambda_2 y)} \,dy
+    \end{align*}
+    Differentiate to obtain:
+    \begin{align*}
+        f_Z(z) = 
+        \begin{cases}
+            0 & z \leq 0 \\
+            function & z > 0
+        \end{cases}
+    \end{align*}
+\end{enumerate}
+
+
+
+
+
+
+
+\section{Question 6}
+Two points are selected randomly on a line of length L so as to be on opposite sides
+of the midpoint of the line. [In other words, the two points X and Y are independent
+random variables such that X is uniformly distributed over (0, L/2) and Y is uniformly
+distributed over (L/2, L).]
+\begin{enumerate}
+    \item Let $Z = |X - Y|$ be the distance between the two points. Find the probability that $Z$ is greater than $L/3$.
+    \item Compute $EZ$.
+\end{enumerate}
+\textbf{Answer:}\\
+\begin{enumerate}
+    \item First, we need to calculate the $f_X(x)$ and $f_Y(y)$, by definition, it is obvious to know that $X \sim Uniform(0,L/2)$ and $Y \sim Uniform(L/2,L)$, so:
+    \begin{align*}
+        f_X(x) = 
+        \begin{cases}
+            \frac{2}{L} & 0 < x < L/2 \\
+            0 & \text{ otherwise }
+        \end{cases}
+        \text{  and  }
+        f_Y(y) = 
+        \begin{cases}
+            \frac{2}{L} & L/2 < x < L \\
+            0 & \text{ otherwise }
+        \end{cases}
+    \end{align*}
+    Now we calculate the cdf of $Z$
+    \begin{align*}
+        F_Z(z)  &= P(Z \leq z) \\
+                &= P(Y - X \leq z) \\
+                &= P(Y \leq X+z) \\
+                &= \int^\infty_{0}dx \int^{x+z}_{L/2} \, f_X(x)f_Y(y)dy \\
+                &= \int^{L/2}_{0} \frac{2}{L} dx \int^{x+z}_{L/2} \, f_Y(y)dy \\
+                &=  \frac{2}{L}\int^{L/2}_{0} g(x) dx
+    \end{align*}
+    Then we need to do a classified discussion on whether $x+z$ is bigger than $L$ or not.
+    \begin{align*}
+        g(x) = \int^{x+z}_{L/2} \, f_Y(y)dy = 
+        \begin{cases}
+            0 & x \leq L/2 -z \\
+            (x+z - L/2)(\frac{2}{L}) & L/2 -z < x \leq L - z\\
+            1 & L - z< x
+        \end{cases}
+    \end{align*}
+    So:
+    \begin{align*}
+        F_Z(z) = 
+        \begin{cases}
+        0    &   z \leq 0 \\
+        \frac{2z^2}{L^2}    & 0 < z \leq L/2 \\
+        \frac{-2z^2+ 4zL - L^2}{L^2}    &   L/2 < z \leq L \\
+        1    & L < z
+        \end{cases}
+    \end{align*}
+    Differentiate to obtain it:
+    \begin{align*}
+        f_Z(z) = 
+        \begin{cases}
+            \frac{4z}{L^2}    & 0 < z \leq L/2 \\
+            \frac{-4z + 4L}{L^2}    &   L/2 < z \leq L \\
+            0 & \text{ otherwise }
+        \end{cases}
+    \end{align*}
+    So:
+    \begin{equation*}
+        P(Z \geq \frac{L}{3}) = 1 - P(Z \leq \frac{L}{3}) = 1 - F_Z(\frac{L}{3}) = \frac{7}{9}
+    \end{equation*}
+
+    \item By definition, we can get the formula of $EZ$.
+    \begin{align*}
+        EZ  &= \int^\infty_{-\infty} zf_Z(z) \, dz \\
+            &= \int^{L/2}_{0} z\frac{4z}{L^2} \, dz + \int^{L}_{L/2} z\frac{4L - 4z}{L^2} \, dz\\
+            &= \frac{L}{6} + \frac{3L}{2}- \frac{7L}{6} \\
+            &= \frac{L}{2}
+    \end{align*}
+\end{enumerate}
+
+
+
+
+\section{Question 7}
+Let X, Y have a bivariate normal distribution $\mathrm{N} (\mu_x, \mu_y; \sigma^2_x, \sigma^2_y; \rho)$
+\begin{enumerate}
+    \item Show that:
+    \begin{equation*}
+        E[(X-\mu_x)(Y - \mu_y)] = \rho\sigma_x\sigma_y
+    \end{equation*}
+    \item Let:
+    \begin{equation*}
+        G(\lambda) := \{(x,y) \in \mathbb{R}^2\, : \, (\frac{x - \mu_x}{\sigma_x})^2 + (\frac{y - \mu_y}{\sigma_y})^2 - 2\rho\frac{(x-\mu_x)(y-\mu_y)}{\sigma_x\sigma_y} \leq \lambda^2\}
+    \end{equation*}
+    Calculate $P((X, Y ) \in G(\lambda))$
+\end{enumerate}
+
+\textbf{Answer:}
+\begin{enumerate}
+    \item By definition:
+    \begin{align*}
+        E[(X-\mu_x)(Y - \mu_y)] &= \int^{\infty}_{-\infty}\int^{\infty}_{-\infty} (x-\mu_x)(y - \mu_y)f(x,y) \, dxdy \\
+                &= \int^{\infty}_{-\infty}\int^{\infty}_{-\infty} (x-\mu_x)(y - \mu_y)(e^{\{-\frac{1}{2(1-p^{2})}[(\frac{x-\mu_{x}}{\sigma_{x}})^{2}+(\frac{y-\mu_{y}}{\sigma_{y}})^{2}-2p\frac{(x-\mu_{x})(y-\mu_{y})}{\sigma_{x}\sigma_{y}}]\}}) \, dxdy \\
+                \text{We do some substitutions:  } &u = \frac{x - \mu_x}{\sigma_x} \text{ and } u = \frac{y - \mu_y}{\sigma_y} \\
+                &= \iint_{R^2}\frac{\sigma_x\cdot\sigma_y\cdot u\cdot v}{2\pi\sqrt{1-p^2}}\cdot e^{[-\frac1{2(1-p^2)}(u^2+v^2-2p\cdot uv)]} \, dudv \\
+                &= \int_{-\infty}^{+\infty}dv\cdot\int_{-\infty}^{+\infty}\frac{\sigma_{x}v_{y}uv}{2\pi\sqrt{1-\rho^{2}}} e^{-\frac{1}{2(1-\rho^{2})}\cdot[(u-\rho v)^{2}+(1-\rho^{2})v^{2}]} \, du \\
+                &= \frac{\sigma_{x}\sigma_{y}}{2\pi\sqrt{1-\rho^{2}}}\int_{-\infty}^{+\infty}v\cdot e^{-\frac{v^{2}}{3}}dv\cdot\int_{-\infty}^{+\infty}[(u-\rho v)+\rho v]\cdot e^{[-(\frac{u-\rho v}{\sqrt{2(1-\rho^{2})}})^{2}]} \,du \\
+                \text{Let: } &t = \frac{u - pv}{2\sqrt{1 - \rho^2}} \\
+                &= \frac{\sigma_{x}\sigma_{y}}{2\pi\sqrt{1-\rho^{2}}}\cdot\int_{-\infty}^{+\infty}v\cdot e^{-\frac{v^{2}}{2}}dv\cdot\int_{-\infty}^{+\infty}(\sqrt{2(1-\rho^{2})}\cdot t+\rho v)\cdot e^{-t^{2}}\cdot\sqrt{2(1-\rho^{2})}dt\\
+                \text{Since } te^{-t^2} \text{ is a odd function, we get: } \\
+                &= \frac{\sigma_x\cdot\sigma_y\cdot\rho}{\sqrt{2\pi}}\cdot\int_{-\infty}^{+\infty}v^2\cdot e^{-\frac{v^2}2} \, dv \\
+                \text{Let } k &:= \frac{v^2}{2} \\
+                &= \sigma_x\cdot\sigma_y\cdot \rho \cdot\frac2{\sqrt{\pi}}\cdot \varGamma(\frac32) \\
+                &= \sigma_x\cdot\sigma_y\cdot \rho 
+    \end{align*}
+    \item By definition:
+    \begin{align*}
+        P((X, Y ) \in G(\lambda)) &= \iint_{G(\lambda)} f(x,y) \, dxdy \\
+    \end{align*}
+    \begin{align*}
+        &u:=\frac{x-\mu_{x}}{\sigma_{x}}:v:=\frac{y-\mu_{y}}{\sigma_{y}} \\
+        &\Rightarrow G(\lambda)=\{(\sigma_{x}\cdot u+\mu_{x},\sigma_{y}\cdot u+\mu_{y})\in \mathbb{R}^{2}:u^{2}+v^{2}-2\rho\cdot u\cdot v\leq\lambda^{2}\}. \\
+        &\text{i.e. } \therefore(x,y)\in G(\lambda)\Leftrightarrow(u-\rho\cdot v)^{2}+(1-\rho^{2})v^{2}\leq\lambda^{2} \\
+        &\Rightarrow P((X,Y)\in G(\lambda))=\int\int1_{(X,Y)\in G(\lambda)}f(x,y)dxdy \\
+        &\text{Let }u-\rho\cdot v=r\cdot\cos\theta,v\cdot\sqrt{1-\rho^2}=r\cdot\sin\theta \\
+        &\Rightarrow P((X,Y)\in G(\lambda))=\frac{1}{2\pi}\cdot\frac{1}{\sqrt{1-\rho^{2}}}\cdot\int_{0}^{\lambda}\int_{0}^{2\pi}\exp[-\frac{r^{2}}{2(1-\rho^{2})}]\cdot\frac{r}{\sqrt{1-\rho^{2}}}d\theta\cdot dr \\
+        &=\int_{0}^{\lambda}\exp(-\frac{r^{2}}{2(1-\rho^{2})})\cdot\frac{r}{\sqrt{1-\rho^{2}}}\cdot d(\frac{r}{\sqrt{1-\rho^{2}}}) \\
+        &=\int_{0}^{\lambda/\sqrt{1-\rho^{2}}}e^{-\frac{t^{2}}{2}}\cdot t\cdot dt=1-e^{-\frac{1}{2}\cdot\frac{\lambda^{2}}{1-\rho^{2}}} \\
+        &\text{Hence: }P((X,Y)\in G(\lambda))=1-exp(-\frac{1}{2}\cdot\frac{\lambda^{2}}{1-\rho^{2}})
+    \end{align*}
+\end{enumerate}
+
+
+
+
+
+\end{document}
