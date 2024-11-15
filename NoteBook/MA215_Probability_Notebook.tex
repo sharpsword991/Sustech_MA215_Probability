@@ -1,6 +1,8 @@
 \documentclass{article}
 
 \usepackage{amsmath, amsthm, amssymb, amsfonts}
+\usepackage{extpfeil}
+
 \usepackage{thmtools}
 \usepackage{graphicx}
 \usepackage{pgfplots} % 引入pgfplots宏包
@@ -40,6 +42,9 @@
 \declaretheoremstyle[name=Quiz,]{quizty}
 \declaretheorem[style=quizty,numberwithin=section]{quiz}
 \tcolorboxenvironment{quiz}{colback= LightBlue}
+
+
+
 
 \setstretch{1.2}
 \geometry{
@@ -218,7 +223,7 @@ Probability Space is a special case of measure theory.
     For 2 events E,F such that $P(E) > 0$. The conditional probability F occurs given that E has occurred is denoted by:
     $$ P(F|E) = \frac{P(F \cap E)}{P(E)}$$
 \end{definition}
-
+This definition give a new perspective into the conditional probability:
 \begin{theorem}
     If each outcome of a finite sample space is equally likely, then we may compute the conditional probability of the form $P(F|E)$ by using E as the reduced sample space.
 \end{theorem}
@@ -230,7 +235,7 @@ Probability Space is a special case of measure theory.
     More generally:
     $$ P(E_1 \cap E_2 \cap \dots \cap E_n) = P(E_1)\times P(E_2|E_1)\times P(E_3|(E_1 \cap E_2))\dots P(E_n|\bigcap^{n-1}_{i=1}(E_i))$$
 \end{theorem}
-
+Theorem 3.2 is also called \textbf{chain rule}, which can be used in induction or some other methods.
 \begin{definition}
     \textbf{Independence}\\
     For two events E, F. We say E and F are independent if:
@@ -374,6 +379,7 @@ $$ P(X=a) = P(a\leq X\leq a) = \int^a_a f(x) \, dx = 0$$
   0   &  x \notin A
  \end{cases}
 \]
+It is also called as characteristic function.\\
 For example: Let $X \sim Unif(1,5)$, find $P(X > 3.5)$\\
 Solution:
 $$ P(X>3.5) = P(X \geq 3.5)$$
@@ -400,7 +406,8 @@ $$ P(X \geq 3.5) = \int^{\infty}_{3.5} f(x)\, dx = \frac{3}{8}$$
 It is easy to prove that all exponential random variables are memoryless.
 
 \begin{theorem}
-    If $X$ is memoryless, then $X \sim Exp(\lambda) \text{ for some } \lambda > 0$
+    If $X$ is memoryless, then $X \sim Exp(\lambda) \text{ for some } \lambda > 0$. \\
+    Moreover, we proved that memoryless random variable equals to exponetial random variable.
 \end{theorem}
 For example: Let $X$ be a continuous random variable with p.d.f.
 \[ 
@@ -410,7 +417,7 @@ f(x) =
     0 & x = 0
 \end{cases}
 \]
-Calculate $P(50 \leq X \leq 150)$
+Calculate $P(50 \leq X \leq 150)$ \\
 Solution:
 \begin{enumerate}
     \item Use $\int^{\infty}_{\infty}f(x) \, dx = 1$, we can get $\lambda = \frac{1}{100}$
@@ -775,7 +782,7 @@ This is a very beautiful structure with general form.
         \item $Cov(X,Y) = 0$
     \end{enumerate}
 \end{theorem}
-\section{Lecture 9 2024.10.29}
+\section{Lecture 9 Sum of Independent Random Variables 2024.10.29}
 To understand the structure below better, we introduce the convolution of two functions. 
 \begin{definition}
     \textbf{Convolution:}
@@ -822,6 +829,123 @@ By observation, we can easily notice that $X + Y \sim Gamma(2, \lambda)$
 
 
 
+\section{Lecture 10 Conditional Distribution 2024.11.07}
+We begin with some easy conclusions:
+\begin{theorem}
+Here we discuss the sum of independent discrete random variables.
+\begin{enumerate}
+    \item \textbf{Poisson: }If $X \sim Poisson(\lambda_1)$ and $Y \sim Poisson(\lambda_2)$ are two independent discrete random variables, then $X+Y \sim Poisson(\lambda_1 + \lambda_2)$
+    \item \textbf{Binomial: }If $X \sim Bin(n,p)$ and $Y \sim Bin(m,p)$ are two independent discrete random variables, then $X + Y \sim Bin( n+m, p)$
+
+\end{enumerate}
+
+\end{theorem}
+\emph{Proof}:
+\begin{enumerate}
+    \item For Poisson:
+    \begin{align*}
+    P(X+Y=n) &\xlongequal{?} \frac{(\lambda_{1}+\lambda_{2})^{n}}{n!} \cdot e^{-(\lambda_{1}+\lambda_{2})}\\
+    [\text{Total Probability}] &= \sum_{k=0}^{n} P(X+Y = n |\,X=k) \cdot P(X=k)\\
+                               &= \sum_{k=0}^{n} P(Y=n-k) \cdot P(X=k) \\
+                               &= \sum_{k=0}^{n} \frac{\lambda_{2}^{n-k}}{(n-k)!} \cdot e^{-\lambda_{2}} \cdot \frac{\lambda_{1}^{n-k}}{k!} \cdot e^{-\lambda_{1}}\\
+                               &= e^{-(\lambda_{1} + \lambda_{2})} \cdot \frac{1}{n!} \cdot \sum_{k=0}^{n} \frac{n!}{k!(n-k)!} \lambda_{1}^{k} \lambda_{2}^{n-k}\\
+                               &= \frac{(\lambda_{1}+\lambda_{2})^{n}}{n!} \cdot e^{-(\lambda_{1}+\lambda_{2})}
+    \end{align*}
+    \item For Binomial:
+    \begin{align*}
+        \forall\, 0 \leq N \leq n+m &\\
+        P(X + Y = N) &= \sum^{N \land n}_{k = 0}P(Y = N-k | X = k)P(X = k) \\
+                     &= \sum^{N \land n}_{k = 0} \binom{m}{N-k}p^{N-k}(1-p)^{m -(N-k)} \binom{n}{k}p^k(1-p)^{n-k} \\
+                     &= \sum^{N \land n}_{k = 0} \binom{m}{N - k}\binom{n}{k}p^{N}(1-p)^{m+n - N}
+    \end{align*}
+    Since we don't know the specific value of $N$, we need to do a classification discussion.
+    \begin{enumerate}
+    \item $0\leq N \leq n\wedge m$
+          \[\sum_{k=0}^{N} \binom{m}{N-k} \binom{n}{k} p^{N} (1-p)^{m+n-N} = \binom{m+n}{N} p^{N} (1-p)^{m+n-N}\]
+    \item $n\vee m \leq N \leq n+m$
+          \[\sum_{k=0}^{n} \binom{m}{N-k} \binom{n}{k} p^{N} (1-p)^{m+n-N} = \binom{m+n}{N} p^{N} (1-p)^{m+n-N}\]
+    \item $n\wedge m \leq N \leq n\vee m$
+          Similar hence omitted.
+\end{enumerate}
+\end{enumerate}
+
+\begin{definition}
+    \textbf{Conditional probability mass function:}\\
+    If $X,Y$ are two discrete random variables, we define the conditional probability mass function of $X$ given $Y = y$:
+    \begin{align*}
+        P_{X|Y}(x|y) &= P(X = x| Y = y) \\
+                     &= \frac{p(x,y)}{P_Y(y)}
+    \end{align*}    
+\end{definition}
+\textbf{For example:} \\
+Suppose the $p(x,y)$ of $(X,Y)$ is:
+\[
+\begin{array}{rl}
+    p(0,0) = 0.4 & p(0,1) = 0.2\\
+    p(1,0) = 0.1 & p(1,1) = 0.3
+\end{array}
+\]
+Find the conditional distribution of $X$ given $Y=1$.
+
+\emph{proof:}
+\[
+    \begin{array}{c}
+        p(Y=1) = p(0,1) + p(1,1) = 0.5\\
+        P(X=0|\,Y=1) = \frac{P(X=0,Y=1)}{P(Y=1)} = \frac{p(0,1)}{0.5} = \frac{2}{5}\\
+        P(X=1|\,Y=1) = \frac{P(X=1,Y=1)}{P(Y=1)} = \frac{p(1,1)}{0.5} = \frac{3}{5}
+    \end{array}
+\]
+Similarly, we can also define:
+\begin{definition}
+    \textbf{Conditional cumulative distribution function:}
+    If $X,Y$ are two discrete random variables, we define the conditional cumulative distribution function of $X$ given $Y = y$:
+    \begin{align*}
+        F_{X|Y}(x|y) &= P(X \leq x | Y = y) \\
+                     &= \Sigma_{m \leq x} P(X = m| Y = y) \\
+                     &= \Sigma_{m \leq x} \frac{P(m, y)}{P(Y = y)}
+    \end{align*}        
+\end{definition}
+\textbf{For example:}\\
+If $X$ and $Y$ are independent R.V.s with $X\sim Poisson(\lambda_{1})$, $Y\sim Poisson(\lambda_{2})$,
+calculate the conditional distribution of $X$ given $X+Y = n$.
+
+\emph{proof:} \quad $\forall\, 0 \leq k \leq n$:
+\begin{align*}
+    P(X=k|\,X+Y=n) &= \frac{P(X=k,X+Y=n)}{P(X+Y=n)}\\
+                   &= \frac{e^{-\lambda_{1}} \cdot \frac{\lambda_{1}^{k}}{k!} \cdot e^{-\lambda_{2}} \cdot \frac{\lambda_{2}^{n-k}}{(n-k)!}}{e^{-(\lambda_{1}+\lambda_{2})} \cdot \frac{(\lambda_{1}+\lambda_{2})^{n}}{n!}}\\
+                   &= \frac{n!}{k!(n-k)!} \cdot \left(\frac{\lambda_{1}}{\lambda_{1}+\lambda_{2}}\right)^{k} \cdot \left(\frac{\lambda_{2}}{\lambda_{1}+\lambda_{2}}\right)^{n-k}\\
+                   &= \binom{n}{k} \cdot \left(\frac{\lambda_{1}}{\lambda_{1}+\lambda_{2}}\right)^{k} \cdot \left(1-\frac{\lambda_{1}}{\lambda_{1}+\lambda_{2}}\right)^{n-k}\\
+                   &\sim Bin(n,\frac{\lambda_{1}}{\lambda_{1}+\lambda_{2}})
+\end{align*}
+
+
+
+\begin{quiz}
+    Joint probability density function of $(X,Y)$ is:
+    \begin{equation*}
+        f(x,y) = 
+        \begin{cases}
+            xe^{-x(y+1)} & 0 < x,y < \infty\\
+            0 & \text{ otherwise }
+        \end{cases}
+    \end{equation*}
+    \begin{enumerate}
+        \item Find $f_{X|Y}(x|y)$
+        \item Find $f_{Y|X}(y|x)$
+    \end{enumerate}
+\end{quiz}
+Now we can see the \textbf{Total Probability Formula} from a new perspective.
+\begin{definition}
+    \textbf{Total Probability Formula:}\\
+    Let $A_1,\dots , A_n$ be mutually exclusive and $S = \bigcup^n_{k=1}A_k$. Then:
+    \begin{equation*}
+        P(B) = \sum^n_{i=1}P(B|A_i)P(A_i)
+    \end{equation*}
+    The continuous version:
+    \begin{equation*}
+        P(B) = \int^\infty_{-\infty}P(B | Y = y)f_Y(y) \, dy
+    \end{equation*}
+\end{definition}
 
 
 
@@ -831,6 +955,231 @@ By observation, we can easily notice that $X + Y \sim Gamma(2, \lambda)$
 
 
 
+
+
+
+
+
+\section{Lecture 11 2024.11.12}
+
+
+\begin{definition}
+    \textbf{Continuous version of total probability formula}:
+    \[ P(B) = \int_{-\infty}^{\infty}P(B|Y=y) \cdot f_{Y}(y) \, dy \]
+    \[ \left(f_{Y}(y) = \frac{P(B\cap \{Y=y\})}{P(Y=y)}\right) \]
+
+$ P(B|Y) $ is a P.V. of $Y$.
+\[P(B) = E[P(B|Y)] = \int_{-\infty}^{\infty} P(B|Y=y) \cdot f_{Y}(y) \, dy\]
+
+\end{definition}
+
+Now recall the Bivariate Normal Distribution:
+
+\[ f(x,y) = \frac{1}{2\pi \sigma_{x} \sigma_{y} \sqrt{1-\rho^{2}}} \text{exp} \left\{ -\frac{1}{2(1-\rho^{2})} \left[ \left( \frac{x-\mu_{x}}{\sigma_{x}} \right)^{2} + \left( \frac{y-\mu_{y}}{\sigma_{y}} \right)^{2} -2 \rho \frac{(x-\mu_{x})(y-\mu_{y})}{\sigma_{x} \sigma_{y}} \right] \right\} \]
+
+\rule{35em}{0.05ex}
+
+\bigskip
+
+Let:
+\[
+\left\{
+    \begin{aligned}
+        X &\sim \mathcal{N} ((\mu_{x},\sigma_{x}^{2}))\\
+        Y &\sim \mathcal{N} (\mu_{y}, \sigma_{y}^{2})
+    \end{aligned}
+\right.
+\]
+
+Given $Y = y$, the conditional pdf of $X$ is:
+
+\begin{align*}
+    f_{X|Y}(x|y) &= \frac{f(x,y)}{f_{Y}(y)} = \frac{f(x,y)}{\frac{1}{\sqrt{2\pi \sigma_{y}^{2}}} \cdot e^{-\frac{(y-\mu_{y})^{2}}{2\sigma_{y}^{2}}}}\\
+                 &\sim N(\mu_{x} + \rho \cdot \frac{\sigma_{x}}{\sigma_{y}}(y-\mu_{y}), \sigma_{x}^{2}(1-\rho^{2})) 
+\end{align*}
+ If $\rho = 0$, then $X \sim N((\mu_{x},\sigma_{x}^{2})),\  Y \sim N(\mu_{y}, \sigma_{y}^{2})$.
+ i.e. They are independent.
+
+\begin{quiz}
+    The joint pdf of $(X,Y)$ is:
+    \[ f(x,y) = \begin{cases}
+        2xe^{x^{2}-y} & 0<x<1,y>x^{2}\\
+        0 & \text{otherwise}
+    \end{cases} \]
+Find $f_{Y|X}(y|x)$ and $P(Y\geq \frac{1}{4} | X=x)$
+\end{quiz}
+
+\emph{proof:}
+
+\begin{enumerate}
+    \item \[ f_{Y|X}(y|x) = \frac{f(x,y)}{f_{X}(x)} = e^{x^{2} - y} \]
+    \item \[ P(Y\geq \frac{1}{4} | X=x) = \int_{x \vee \frac{1}{4}}^{\infty} f_{Y|X}(y|x) dy = \begin{cases}
+        e^{x^{2} - \frac{1}{4}} &, 0<x<\frac{1}{4}\\
+        1 &, \frac{1}{2} <x<1
+    \end{cases}\]
+\end{enumerate}
+
+\bigskip
+Now we introduce a important method in solving integral problems.
+
+\begin{theorem}
+    \textbf{Multiple Substitution}:\\
+    Let $U = g(X,Y) \text{ and } V = h(X,Y)$.\\
+    The joint pdf of $(U,V) = (g(X,Y),h(X,Y))$ is 
+\[ f_{UV}(u,v) = |J(u,v)| \cdot f_{XY}(q(u,v),r(u,v)) \]
+\end{theorem}
+For example: 
+
+Suppose $(X,Y)$ are independent $N(0,1)$.
+\[ f(x,y) = \frac{1}{\sqrt{2 \pi}} \cdot e^{-\frac{x^{2}}{2}} \cdot \, \frac{1}{\sqrt{2 \pi}} \cdot e^{-\frac{y^{2}}{2}} \]
+
+Let 
+\[
+\left\{
+    \begin{aligned}
+        X &= R \cdot cos \theta\\
+        Y &= R \cdot sin \theta
+    \end{aligned}
+\right.
+\qquad ,(R,\theta) \in \mathbb{R}^{+} \times [0,2\pi)
+\]
+
+Consider $(X,Y)$ jointly continuous R.V. with joint pdf $f(x,y)$.\\
+Define:
+\[
+\left\{
+    \begin{aligned}
+        U &= g(X,Y)\\
+        V &= h(X,Y)
+    \end{aligned}
+\right.
+\]
+
+Let $K = \{ (x,y) \in \mathbb{R}^{2}, \ f(x,y) > 0 \}$
+
+Set $G = \{ (g(x,y),h(x,y)) \in \mathbb{R}^{2}, (x,y) \in K \} = \{ (U,V) \}$
+\[ K=\mathbb{R}^{2},\ G=[0,\infty) \times [0,2\pi) \] The map from $K$ to $G$ is bijective.
+
+Solve
+\[
+\left\{
+    \begin{aligned}
+        u &= g(x,y)\\
+        v &= h(x,y)
+    \end{aligned}
+\right.
+\]
+
+To get
+\[
+\left\{
+    \begin{aligned}
+        x &= q(u,v)\\
+        y &= r(u,v)
+    \end{aligned}
+\right.
+\]
+
+
+Let 
+\[
+J(u,v) = \begin{vmatrix}
+    x_{u} & x_{v} \\
+    y_{u} & y_{v}
+   \end{vmatrix}
+   ={ \Large \begin{vmatrix}
+    \frac{\partial q(u,v)}{\partial u} & \frac{\partial q(u,v)}{\partial v} \\
+    \frac{\partial r(u,v)}{\partial u} & \frac{\partial r(u,v)}{\partial v}
+   \end{vmatrix}}
+\]  
+
+\bigskip
+
+\textbf{Theorem:} The joint pdf of $(U,V) = (g(X,Y),h(X,Y))$ is 
+\[ f_{UV}(u,v) = |J(u,v)| \cdot f_{XY}(q(u,v),r(u,v)) \]
+
+Hence we have:
+\begin{align*}
+    f_{R}(R) &= R \cdot e^{-\frac{R^{2}}{2}}\\
+    f_{\Theta}(\Theta) &= \frac{1}{2\pi}
+\end{align*}
+$\Rightarrow \Theta \sim $Unif(0,$2\pi$) Independent.
+
+\begin{definition}
+    \textbf{Box-Muller Algorithm:}\\
+    Let $U_{1} , U_{2}$ be independent Unif($0,1$). Note that:
+    \[ F_{R}(r) = \int_{0}^{r} R\cdot e^{-\frac{R^{2}}{2}} dR = 1-e^{-\frac{r^{2}}{2}} \]
+    
+    Then $F_{R}^{-1}(u) = \sqrt{-2\ln(1-u)}$
+    
+    By letting \[ V_{1} = \sqrt{-2\ln(1-U_{1})} \left( or  = \sqrt{-2\ln(U_{1})}\right) \]
+    
+    we get: $V_{1} \xlongequal{d} R$
+    
+    \[ V_{2} = 2\pi U_{2} \sim \text{Unif}(0,2\pi) \Rightarrow V_{2} \xlongequal{d} \Theta \]
+    
+    Then:\[ (V_{1},V_{2} ) \sim (R,\Theta) \]
+    
+    So:
+    \[
+    \left\{
+        \begin{aligned}
+            X &= V_{1} cos\cdot V_{2}\\
+            Y &= V_{1} sin\cdot V_{2} 
+        \end{aligned}
+    \right.
+    \]
+    Independent \quad $X,Y \sim \mathcal{N}(0,1) $ 
+\end{definition}
+This algorithm comes from the idea of solving Gauss Integral and give a clear way of how to transform uniform random variables into normal distributed random variables.
+
+
+
+\begin{definition}
+    \textbf{General Form of Expectation:}\\
+    For a discrete R.V. $X$, the expectation of $X$ is:
+    \[ EX = \sum_{m=-\infty}^{\infty} m\cdot P(X=m) \]
+    given $E|X| < \infty$.
+    \[ E|X| = \sum_{m=-\infty}^{\infty} |m|\cdot P(X=m) <\infty \]
+    
+    For a continuous R.V. $X$, the expectation is:
+    \[ EX = \int_{-\infty}^{\infty} x \cdot f(x) \, dx \]
+    
+    Given:
+    \[ E|X| = \int_{-\infty}^{\infty} |x| \cdot f(x) \, dx < \infty \]
+    
+\end{definition}
+\[ Var(X) = E[(X-EX)^{2}] = \sum_{m=-\infty}^{\infty} (m-EX)^{2} \cdot P(X=m) \]
+
+
+
+
+
+
+
+
+\section{Lecture 12 2024.11.14}
+\begin{definition}
+    \textbf{Order Statistic:}\\
+    Let $X_1, X_2\dots, X_n$ be independent identically distributed random variables with a common probability density function $f$ and commutative density function $F$\\
+    Then we define an ordered sequence of $X_1,X_2,\dots, X_n$
+    \begin{equation*}
+        X_{(1)} < X_{(2)} < \dots < X_{(n)}
+    \end{equation*}
+\end{definition}
+\begin{theorem}
+    The joint probability density function of $X_{(1)}, X_{(2)}, \dots, X_{(n)}$ is:
+    \begin{equation*}
+        f_{X_{(1)},X_{(2)},\dots,X_{(n)}}(x_1,x_2,\dots,x_n) = n! \times f(x_1)f(x_2)\dots f(x_n) \times 1_{x_1 < x_2 < \dots < x_n}
+    \end{equation*}
+\end{theorem}
+\emph{Proof:}
+Method 1: Use the Infinitesimal Method:
+\begin{equation*}
+    P(X \in (x - \frac{\epsilon}{2}, x + \frac{\epsilon}{2}))
+\end{equation*}
+
+Consider an example of an Ordered Statistic:
 
 
 \newpage
@@ -892,7 +1241,15 @@ By observation, we can easily notice that $X + Y \sim Gamma(2, \lambda)$
 \end{enumerate}
 
 \item \textbf{\large Quiz 9}
-    \item $f_Z(z) = \frac{1}{2}z^2e^{-z}$
+     $f_Z(z) = \frac{1}{2}z^2e^{-z}$
+
+
+
+\item \textbf{\large Quiz 10}
+\begin{enumerate}
+    \item $f_{X|Y}(x|y) = (y+1)^2 xe^{-x(y+1)}$
+    \item $f_{Y|X}(y|x) = xe^{-xy}$
+\end{enumerate}
 \end{enumerate}
 
 
