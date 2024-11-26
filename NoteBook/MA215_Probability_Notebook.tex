@@ -960,7 +960,7 @@ Now we can see the \textbf{Total Probability Formula} from a new perspective.
 
 
 
-\section{Lecture 11 2024.11.12}
+\section{Lecture 11 Multiple Substitution 2024.11.12}
 
 
 \begin{definition}
@@ -1158,7 +1158,7 @@ This algorithm comes from the idea of solving Gauss Integral and give a clear wa
 
 
 
-\section{Lecture 12 2024.11.14}
+\section{Lecture 12 Order Statistic 2024.11.14}
 \begin{definition}
     \textbf{Order Statistic:}\\
     Let $X_1, X_2\dots, X_n$ be independent identically distributed random variables with a common probability density function $f$ and commutative density function $F$\\
@@ -1174,13 +1174,302 @@ This algorithm comes from the idea of solving Gauss Integral and give a clear wa
     \end{equation*}
 \end{theorem}
 \emph{Proof:}
-Method 1: Use the Infinitesimal Method:
+
+Using \underline{\textcolor{purple}{Infitesimal Method}}:
+$ \forall \epsilon >0 $ 
+small, note 
+\begin{align*}
+    & P(X_{(1)} \in (x_{1} - \frac{\epsilon}{2}, x_{1} + \frac{\epsilon}{2}, \cdots , X_{(n)} \in (x_{n} - \frac{\epsilon}{2}, x_{n} + \frac{\epsilon}{2}))) \quad \forall x_{1} < x_{2} < \cdots < x_{n}\\
+    &= \int_{t_{1} \in (x_{1} - \frac{\epsilon}{2}, x_{1} + \frac{\epsilon}{2})} \dif t_{1} \cdot \int_{t_{2} \in (x_{2} - \frac{\epsilon}{2}, x_{2} + \frac{\epsilon}{2})} \dif t_{2} \cdot \int \cdots \int \dif t_{n}\\
+    &\approx f(x_{1},\cdots,x_{n}) \cdot \epsilon^{n} + o(\epsilon^{n}) 
+\end{align*}
+
+\bigskip
+
+On the other hand, 
+\begin{align*}
+    LHS &= n! P(X_{(1)} \in (x_{1} - \frac{\epsilon}{2}, x_{1} + \frac{\epsilon}{2}, \cdots , X_{(n)} \in (x_{n} - \frac{\epsilon}{2}, x_{n} + \frac{\epsilon}{2})))\\
+        &= n! \prod_{k=1}^{n}P(X_{k} \in (x_{k} - \frac{\epsilon}{2}, x_{k} \in \frac{\epsilon}{2}))\\
+        &\approx n! \prod_{k=1}^{n}[f(x_{k}) \epsilon]
+\end{align*}
+
+Hence:
+\[ f(x_{1}, x_{2} ,\cdots x_{n}) = n! \prod_{k=1}^{n} f(x_{k})  \]
+
+For example:
+
+If $X_{1}, \cdots ,X_{n}$ are i.i.d. Unif(0,1), then:
+\[ f_{X_{(1)},X_{(2)},\cdots,X_{(n)}} (x_{1}, x_{2}, \cdots , x_{n}) = n! \quad 0<x_{1}<x_{2}<\cdots<x_{n}<1 \]
+
+\bigskip
+
+For any $1\leq j \leq n$, the marginal pdf of $X_{(j)}$ is:
+\begin{align*}
+    f_{X(j)} (x) &= \frac{n!}{(n-j)!(j-1)!} \cdot P(X_{1},\cdots,X_{j-1} <x,X_{j} = x, X_{j+1},\cdots , X_{n} >x)\\
+                 &= \frac{n!}{(n-j)!(j-1)!} \cdot x^{j-1} (1-x)^{n-j}
+\end{align*}
+\[ P(X_{1} < x) = x \quad P(X_{1}>x) = 1-x \quad P(X_{1} = x) \approx 1\]
+
+
+
+
+
+
+
+
+\section{Lecture 13 2024.11.21}
+
+For example:
+
+$X \sim \mathcal{N}(0,1)$, $E|X|^{\alpha}$
+
+
+For example:
+If $X,Y \sim \mathcal{N}(0,1) $, independent, find $E(|X^{2}+Y^{2}|^{\alpha})$ for $\alpha \in \mathbb{R}$
+
+\emph{Solution:}
+
+\begin{align*}
+    E(|X^{2}+Y^{2}|^{\alpha}) &= \iint (x^{2} + y^{2})^{\alpha} \cdot f_{XY}(x,y) \dif x \dif y\\
+                              &= \iint (x^{2} + y^{2})^{\alpha} \cdot \frac{1}{2\pi} \cdot e^{-\frac{1}{2} (x^{2} +y^{2})} \dif x \dif y\\
+                              &= \int_{0}^{\infty} r \dif r \cdot \int_{0}^{2\pi} \dif \theta \cdot (r^{2})^{\alpha} \cdot \frac{1}{2\pi} \cdot e^{-\frac{1}{2} r^{2}}\\
+                              &= \int_{0}^{\infty} r^{2\alpha + 1} \cdot e^{-\frac{1}{2} r^{2}}\dif r \\
+                              &\xlongequal{t = \frac{1}{2} r^{2}} \int_{0}^{\infty}e^{-t} \cdot (\sqrt{2\pi})^{2\alpha +1} \cdot \frac{1}{\sqrt{2\pi}}\\
+                              &= \begin{cases}
+                                2^{\alpha} \cdot \varGamma(\alpha +1) & \forall \alpha > -1\\
+                                \infty & \forall \alpha \leq -1
+                              \end{cases}
+\end{align*}
+
+
+\newpage
+
+\begin{theorem}
+    \textbf{Properties of Expectation:}\\
+    Let $X_{1},X_{2},\cdots,X_{n}$ be R.V.s such that $E|X_{i}| < \infty,\,\forall i$.
+    \begin{enumerate}
+    \item If $c_{0}, c_{1},\cdots , c_{n}\in \mathbb{R}$, then:
+          \[ E[c_{0} + c_{1}X_{1} + \cdots c_{n}X_{n}] = c_{0} + c_{1} EX_{1} + \cdots c_{n} EX_{n} \]
+    \item If $X_{1}, X_{2}, \cdots X_{n}$ are independent, then $\forall g_{1},g_{2}, \cdots g_{n}$, we have:
+          \[ E[\prod_{k=1}^{n}g_{k}(X_{k})] = \prod_{k=1}^{\infty} E[g_{k}(X_{k})] \]
+          Remark: $g_{1}(X_{1}), \cdots ,g_{n}(X_{n}) $ are also independent. 
+    \end{enumerate} 
+\end{theorem}
+
+
+For example:
+
+A group of $n$ men and $n$ women is lined up at random.
+\begin{enumerate}
+    \item Find the expectation number of men who have a women next to them.
+    
+    \emph{Solution:}
+
+    Let:
+    \[ X_{i} = \begin{cases}
+        1 &, \text{If man i has a woman next to him.}\\
+        0 &, \text{Otherwise.}
+    \end{cases} \]
+
+    \[ EX_{total} = E[X_{1} + \cdots + X_{n}] = \sum_{k=1}^{n}EX_{k} = nEX_{1} \]
+    \[EX_{1} = P(X_{1} = 1) = \frac{1}{2n} \cdot \frac{n}{2n-1} + \frac{1}{2n} \cdot \frac{n}{2n-1}+ (2n - 2) \cdot \frac{1}{2n} \cdot (1- \frac{(n-1)(n-2)}{(2n-1)(2n-2)})\]
+    \[ \Rightarrow EX_{1} = \frac{3n-1}{4n-2} \]
+    \[\Rightarrow EX_{total} = \frac{n(3n-1)}{4n-2} \]
+
+    \item Repeat part $1^{\circ}$, but assuming that the group is randomly seated at a round table.
+    \[ EX_{table} = n \times 2n \times \frac{1}{2n} \cdot (1 - \frac{(n-1)(n-2)}{(2n-1)(2n-2)}) = \frac{3n^{2}}{4n-2} \]
+\end{enumerate}
+
+
+\textbf{For example: }
+
+    $20$ individuals, 10 married couples, 5 tables.
+    \begin{enumerate}
+    \item If the seating is at random, find the expected number of couples that are seated at the same table.
+          \[ EX_{total} = 10EX_{1} = 10 \times \frac{3}{19} = \frac{30}{19}\]
+    \item If $2$ men and $2$ women are randomly chosen to be seated at each table, repeat $1^{\circ}$
+          \[ EX_{total} = 10EX_{1} = 10 \times \frac{2}{10} = 2\]
+    \end{enumerate}
+
+
+\begin{quiz}
+   Suppose there are $n$ people coming to a party, they take turns to sit, for each table it has $p$ probability not sitting it, if there is no table for him to sit, he will start a new table.
+   \begin{figure}[H]
+       \centering
+       \includegraphics[width=0.7\linewidth]{Probability Lecture 13.jpg}
+       \caption{Quiz 13.1}
+   \end{figure}
+   What is the expectation of the numbers of table when all $n$ people have taken their seats.
+\end{quiz}
+
+
+
+For example, this question has been discussed in lecture 4.\\
+(Coupon - Collection problem) Suppose there are $N$ different types of coupons, and each time it is equally likely to be any of the $N$ types.
+Find expected number of coupons needed before obtaining a complete set of all the $N$ types.
+
+\emph{Solution:}
+
+Define $X_{i}$, $0 \leq i \leq N-1$ to be the number of additional coupons that needed to obtain after $i$ distinct types have been collected.
+
+\[X_{total\ number} = X_{0} + X_{1} + \cdots + X_{N-1}\]
+\[ P(X_{i} = k) = \left( \frac{i}{N} \right)^{k-1} \cdot \frac{N-i}{N} \ \Rightarrow X_{i} \sim Geometric\left(\frac{N-i}{N}\right)\]
+\[ EX_{total\ number} = \sum_{i=1}^{N-1}EX_{i} = \sum_{i=0}^{N-1}E\left(Geometric\left(\frac{N-i}{N}\right)\right) = N \cdot \sum_{k=1}^{N} \frac{1}{k} \approx N\cdot ln N\]
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Lecture 14 Application of expectation 2024.11.26}
+
+\begin{theorem}
+    \begin{equation*}
+        P(\bigcup^n_{i=1}E_i) = \sum^n_{k=1}(-1)^{k+1}\sum_{1\leq i_1 < i_2 < \dots < i_k \leq n} P(\bigcap^k_{j=1}E_{i_j})
+    \end{equation*}
+\end{theorem}
+
+Let:
+\begin{align*}
+    X_i = 
+    \begin{cases}
+        1 & \text{if } E_i \text{ occurs} \\
+        0 & \text{if not} 
+    \end{cases}
+\end{align*}
+Then it is easy to prove.
+
+
+The variance of $X$ is given by:
+\begin{align*}
+    Var(X) = E[(X - EX)^2] = \begin{cases}
+        \sum^n_{m = -\infty}(m - \mu)P(X = m) \\
+        \int^\infty_{-\infty}(x-\mu)f(x)\,dx
+    \end{cases}
+\end{align*}
+Now we introduce some properties of variance:
+\begin{theorem}
+    \textbf{Properties of variance:}
+    \begin{enumerate}
+        \item If $EX = \mu$, Var($X$) $< \infty$, then:
+        \begin{enumerate}
+            \item Var($a+bX$) = $b^2$Var($X$), $\forall\, a,b \in \mathbb{R}$
+            \item Var($X$) = E($(x - \mu)^2$) $<$ E($(x-c)^2$), $\forall \,c \in \mathbb{R} \neq \mu$
+        \end{enumerate}
+        \item Let $X_1,X_2,\dots,X_n$ be random variables with $Var(X_i) < \infty$, then:
+        \begin{enumerate}
+            \item Var($\sum^n_{i=1}X_i$) = $\sum^n_{i=1}\sum^n_{j=1}[E(X_iX_j) - \mu_i\mu_j]$
+            \item If $X_1,X_2,\dots,X_n$ are independent.
+            \begin{equation*}
+                Var(\sum^n_{i=1}X_i) = \sum^n_{i=1}Var(X_i)
+            \end{equation*}
+        \end{enumerate}
+    \end{enumerate}
+\end{theorem}
+
+\emph{Proof:}
+\begin{enumerate}
+    \item[1.a] Easy to prove.
+    \item[1.b] 
+    \begin{align*}
+        E[(x-c)^2]  &= E[(x - \mu + \mu -c)^2] \\
+                    &= E[(x - \mu)^2] + 2E[(x - \mu)(\mu - c)] + (\mu - c)^2 \\
+                    &= E[(x - \mu)^2] + (\mu - c)^2 \\
+                    &> E[(x - \mu)^2]
+    \end{align*}    
+    \item[2.a]
+    \begin{align*}
+        LHS &= E[(\sum^n_{i=1}X_i - E(\sum^n_{i=1}X_i))^2] \\
+            &= E[(\sum^n_{i=1}(X_i - \mu_i))^2] \\
+            &= \sum^n_{i=1}\sum^n_{j=1} E(X_iX_j) - \mu_iEX_j - \mu_jEX_i + \mu_i\mu_j \\
+            &= \sum^n_{i=1}\sum^n_{j=1}[E(X_iX_j) - \mu_i\mu_j]
+    \end{align*}
+    \item[2.b] Easy to prove by definition.
+\end{enumerate}
+
+\begin{definition}
+    \textbf{Corelation:}\\
+    Let $X,Y$ be two random variables.
+    \begin{equation*}
+        \rho = \frac{Cov(X,Y)}{\sqrt{Var(X)}\sqrt{Var(Y)}}
+    \end{equation*}
+\end{definition}
+To prove it, we introduce a well-known theory.
+\begin{theorem}
+    \textbf{Cauchy-Schwartz Theorem:}\\
+    For all random variables $X,Y$:
+    \begin{equation*}
+        |E(XY)| \leq E(|XY|) \leq \sqrt{EX^2 \times EY^2}
+    \end{equation*}
+\end{theorem}
+\emph{Proof:}
+
+Let $X,Y$ be two random variables. Consider: $E[aX+Y]$ as a function of $a$
+\begin{align*}
+    E[(aX+Y)^2] &= E[a^2X^2 + 2aXY + Y^2] \\
+                &= E[X^2] a^2 + 2E[XY] a + E[Y^2] \\
+                &\geq 0 \forall a \in \mathbb{R} \\
+            \text{So:}& \\
+            \Delta &= (2E[XY])^2 - 4EX^EY^2 \geq 0
+\end{align*}
+
+Now we can prove $\rho \in [-1,1]$.
+
+\begin{definition}
+    \textbf{Uncorrelated:}\\
+    If $rho = 0$, or $Cov(X,Y) = 0$, we say $X$ and $Y$ are uncorrelated.
+\end{definition}
+It is obvious that if $X, Y$ are independent, then they must be uncorrelated.
+
+\begin{quiz}
+    Joint probability density function of $X,Y$ is:
+    \begin{equation*}
+        f(x,y) = \frac{1}{y} e^{-y-\frac{x}{y}}, x>0,y>0
+    \end{equation*}
+    Find $EX,EY,Cov(X,Y)$
+\end{quiz}
+
+Recall the conditional probability density function of $X$ given $Y = y$ is:
 \begin{equation*}
-    P(X \in (x - \frac{\epsilon}{2}, x + \frac{\epsilon}{2}))
+    f_{X|Y} = \frac{f(x,y)}{f_Y(y)}
 \end{equation*}
+Now we can define:
+\begin{definition}
+    \textbf{Conditional expectation:}\\
+    Let $X$ and $Y$ be two random variables:
+    \begin{equation*}
+        E(X|Y=y) = \int xf_{X|Y}(x|y) \, dx = \int x \frac{f(x,y)}{f_Y(y)} \, dx
+    \end{equation*}
+\end{definition}
 
-Consider an example of an Ordered Statistic:
+\begin{theorem}
+    \textbf{Total formula of probability:}\\
+    If $X,Y$ be two continuous random variables, then:
+    \begin{equation*}
+        E(X) = \int E(X|Y = y)f_Y(y) \, dy
+    \end{equation*}
+\end{theorem}
 
+
+
+
+
+
+
+
+
+
+
+
+
+\newpage
 
 \newpage
 \appendix
@@ -1250,17 +1539,25 @@ Consider an example of an Ordered Statistic:
     \item $f_{X|Y}(x|y) = (y+1)^2 xe^{-x(y+1)}$
     \item $f_{Y|X}(y|x) = xe^{-xy}$
 \end{enumerate}
+
+\item \textbf{\large Quiz 11}
+
+\item \textbf{\large Quiz 12}
+
+\item \textbf{\large Quiz 13}
+
+\item \textbf{\large Quiz 14}
+\begin{enumerate}
+    \item $EX = 1$
+    \item $EY = 1$
+    \item $Cov(X,Y) = 1$
+\end{enumerate}
 \end{enumerate}
 
 
 \newpage
 
 \section{Extension Problem}
-\subsection{Coupon Collector Problem}
-See the original description in Lecture 4.
-
-
-
 
 \newpage
 
@@ -1272,8 +1569,7 @@ See the original description in Lecture 4.
 
 \begin{thebibliography}{1}
 
-\bibitem{wikipedia_coupon}
-Wikipedia contributors, ``Coupon Collector's Problem,'' Wikipedia, The Free Encyclopedia. [Online]. Available: \url{https://en.wikipedia.org/wiki/Coupon_collector%27s_problem}. [Accessed: [2024.10.23]].
+
 
 \end{thebibliography}
 % ------------------------------------------------------------------------------
