@@ -1180,7 +1180,7 @@ $ \forall \epsilon >0 $
 small, note 
 \begin{align*}
     & P(X_{(1)} \in (x_{1} - \frac{\epsilon}{2}, x_{1} + \frac{\epsilon}{2}, \cdots , X_{(n)} \in (x_{n} - \frac{\epsilon}{2}, x_{n} + \frac{\epsilon}{2}))) \quad \forall x_{1} < x_{2} < \cdots < x_{n}\\
-    &= \int_{t_{1} \in (x_{1} - \frac{\epsilon}{2}, x_{1} + \frac{\epsilon}{2})} \dif t_{1} \cdot \int_{t_{2} \in (x_{2} - \frac{\epsilon}{2}, x_{2} + \frac{\epsilon}{2})} \dif t_{2} \cdot \int \cdots \int \dif t_{n}\\
+    &= \int_{t_{1} \in (x_{1} - \frac{\epsilon}{2}, x_{1} + \frac{\epsilon}{2})} d t_{1} \cdot \int_{t_{2} \in (x_{2} - \frac{\epsilon}{2}, x_{2} + \frac{\epsilon}{2})} dt_{2} \cdot \int \cdots \int dt_{n}\\
     &\approx f(x_{1},\cdots,x_{n}) \cdot \epsilon^{n} + o(\epsilon^{n}) 
 \end{align*}
 
@@ -1230,10 +1230,10 @@ If $X,Y \sim \mathcal{N}(0,1) $, independent, find $E(|X^{2}+Y^{2}|^{\alpha})$ f
 \emph{Solution:}
 
 \begin{align*}
-    E(|X^{2}+Y^{2}|^{\alpha}) &= \iint (x^{2} + y^{2})^{\alpha} \cdot f_{XY}(x,y) \dif x \dif y\\
-                              &= \iint (x^{2} + y^{2})^{\alpha} \cdot \frac{1}{2\pi} \cdot e^{-\frac{1}{2} (x^{2} +y^{2})} \dif x \dif y\\
-                              &= \int_{0}^{\infty} r \dif r \cdot \int_{0}^{2\pi} \dif \theta \cdot (r^{2})^{\alpha} \cdot \frac{1}{2\pi} \cdot e^{-\frac{1}{2} r^{2}}\\
-                              &= \int_{0}^{\infty} r^{2\alpha + 1} \cdot e^{-\frac{1}{2} r^{2}}\dif r \\
+    E(|X^{2}+Y^{2}|^{\alpha}) &= \iint (x^{2} + y^{2})^{\alpha} \cdot f_{XY}(x,y)  dx dy\\
+                              &= \iint (x^{2} + y^{2})^{\alpha} \cdot \frac{1}{2\pi} \cdot e^{-\frac{1}{2} (x^{2} +y^{2})} dx dy\\
+                              &= \int_{0}^{\infty} r dr \cdot \int_{0}^{2\pi} d\theta \cdot (r^{2})^{\alpha} \cdot \frac{1}{2\pi} \cdot e^{-\frac{1}{2} r^{2}}\\
+                              &= \int_{0}^{\infty} r^{2\alpha + 1} \cdot e^{-\frac{1}{2} r^{2}} dr \\
                               &\xlongequal{t = \frac{1}{2} r^{2}} \int_{0}^{\infty}e^{-t} \cdot (\sqrt{2\pi})^{2\alpha +1} \cdot \frac{1}{\sqrt{2\pi}}\\
                               &= \begin{cases}
                                 2^{\alpha} \cdot \varGamma(\alpha +1) & \forall \alpha > -1\\
@@ -1457,6 +1457,330 @@ Now we can define:
     \end{equation*}
 \end{theorem}
 
+\textbf{For example:}
+
+A miner is trapped in a mine containing 3 doors. The first door leads to a tunnel that will take him to safety after 3 hours of travel. The second door leads to a tunnel that will return him to the mine after 5 hours of travel. The third door leads to a tunnel that will return him to the mine after 7 hours. If we assume that the miner is at all times equally likely to choose any one of the doors, what is the expected length of time until he reaches safety?
+
+\emph{Solution:}
+
+Let $X$ be the total time until safety and $Y$ be the first choice of the door.
+\begin{equation*}
+    X = \begin{cases}
+        3 & \frac{1}{3} \\
+        5+X' & \frac{1}{3} \\
+        7+X' & \frac{1}{3}
+    \end{cases}
+\end{equation*}
+Since the miner is at all times equally likely to choose any one of the doors. So we know
+\begin{align*}
+    \begin{cases}
+        EX &= \frac{1}{3}E(X|Y=1) + \frac{1}{3}E(X|Y=2) + \frac{1}{3}E(X|Y=3) \\
+        EX &= EX'
+    \end{cases}
+\end{align*}
+So:
+\begin{align*}
+    EX &= \frac{1}{3}(3+5+7) + \frac{2}{3}EX \\
+    EX &= 15
+\end{align*}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Lecture 15 Probability generating function 2024.11.28}
+\begin{definition}
+    \textbf{Probability generating function:}\\
+    For a non-negative discrete random variable $X$, define :
+    \begin{equation*}
+        \forall \, s \in \mathbb{R}, G_X(s) = E[s^X] = \sum^\infty_{n=0}s^nP(X=n)
+    \end{equation*}
+    is a function of $s$
+\end{definition}
+The series is absolutely convergent at least for $|s| \leq 1$.
+
+\textbf{For example:}
+\begin{enumerate}
+    \item[E.g.1] If $X \sim Bernoulli(p)$, then:
+    \begin{equation*}
+        G_X(s) = 1 - p + sp
+    \end{equation*}
+    \item[E.g.2] If $X \sim Poisson(\lambda)$, then:
+    \begin{align*}
+        G_X(s)  &= \sum^\infty_{n=0}s^ne^{-\lambda}\frac{\lambda^n}{n!} \\
+                &= e^{-\lambda}\sum^\infty_{n=0}\frac{(s\lambda)^n}{n!} \\
+                &= e^{s\lambda - \lambda}
+    \end{align*}
+    \item[E.g.3] If $X \sim Binomial(n,p)$, then:
+    \begin{align*}
+        G_X(s) = (1 - p + sp)^n
+    \end{align*}
+\end{enumerate}
+
+\begin{theorem}
+    \textbf{Properties of probability generating function:}
+    \begin{enumerate}
+        \item 
+        \begin{equation*}
+            \forall \, k \geq 0, P(X = k) = \frac{1}{k!}G^{(k)}(0).    
+        \end{equation*}
+        \item 
+        \begin{enumerate}
+            \item $G_X(1) = 1$
+            \item $G^{(1)}(1) = EX$
+            \item $G^{(2)}(1) = E[X(X-1)]$
+            \item By the property above:
+            \begin{equation*}
+                Var(X) = EX^2 - (EX)^2 = G^{(2)}(1) + G^{(1)}(1) - (G^{(1)}(1))^2
+            \end{equation*}
+        \end{enumerate}
+        \item If $X_1,X_2,\dots,X_n$ are independent, then for $Y = \sum^n_{i=1}X_i$, we have:
+        \begin{align*}
+            G_Y(s) = E[s^Y] = E[s^{X_1}\dots s^{X_n}]
+        \end{align*}
+    \end{enumerate}
+\end{theorem}
+All are easy to check by definition.
+
+
+
+
+
+\begin{definition}
+    \textbf{Moment generating function:}\\
+    \begin{equation*}
+        M_X{t} = E(e^tX) = \sum^\infty_{n=0}\frac{t^n}{n!}E[X^n]
+    \end{equation*}
+\end{definition}
+\textbf{Remark:} It is possible that $E(X^n) < \infty, \,\forall\,$ but $M_X(t) = \infty$
+\begin{quiz}
+    The probability density function of $X$ is;
+    \begin{equation*}
+        f(x) = \frac{1}{2}e^{-|X|},\forall\, x \in \mathbb{R}
+    \end{equation*}
+    \begin{enumerate}
+        \item Compute $M_X(t)$.
+        \item Compute $E[X^n]$ by $M_X(t)$.
+    \end{enumerate}
+\end{quiz}
+
+\begin{definition}
+    \textbf{Characteristic function:}\\
+    The characteristic function of $X$ is defined by :
+    \begin{equation*}
+        \Phi_X(t) = E[e^{itX}] = E[cos(tX)] + iE[sin(tX)], \forall \, t \in \mathbb{R}
+    \end{equation*}
+\end{definition}
+The cumulative density function of $X$ is uniquely determined by $\Phi(t)$.
+\begin{equation*}
+    \Phi(t) = \int^\infty_{-\infty}e^{itX}dF(x)
+\end{equation*}
+For example:
+\[
+    \text{If} X \sim N(\mu,\sigma^2),\text{ then } E[e^{itX}] = e^{it\mu - \frac{1}{2}\sigma^2t^2}
+\]
+\textbf{Inversion Formula:}
+
+$\forall \, a<b \in \mathbb{R}$.
+\begin{equation*}
+    \frac{1}{2\pi}\lim_{T \rightarrow \infty}\int^T_{-T}\frac{e^{-ita} - e^{-itb}}{it}\Phi(t)\,dt = \frac{1}{2}(F(b) + F(b^-)) - \frac{1}{2}(F(a) + F(a^-))
+\end{equation*}
+Equals to $F(b) - F(a)$ if left continuous.
+
+
+
+
+
+\section{Lecture 16 2024.12.05}
+I am absent from this lecture due to some reasons.
+
+\begin{definition}
+    \textbf{central moment:}\\
+    Let $X$ be a continuous random variable, with mean value $\mu$. Then we denote:
+    \[
+        \mu'_p = E[|X - \mu|^p]
+    \]
+    We call $\mu'_p$ the p$^{th}$ central moment of $X$.
+\end{definition}
+
+
+\section{Lecture 17 Inequality and convergence 2024.12.10}
+
+\begin{theorem}
+    \textbf{Markov's Inequality:}\\
+    For any random variable $X$ with mean $\mu$, we have:
+    \[
+        P(|X| \geq t) \leq \frac{\mu}{t} \forall t \geq 0.
+    \]
+\end{theorem}
+
+
+
+\begin{theorem}
+    \textbf{Chebyshev's Inequality:}\\
+    For any random variable $X$ with mean $\mu$, variance $\sigma^2$, we have:
+    \[
+        P(|X-\mu| \geq t) \leq \frac{\sigma^2}{t^2}, \,\,\,  \forall t < 0
+    \]
+\end{theorem}
+In the real world application, Chebyshev's Inequality is\textbf{ more precise than }Marcov's  Inequality since it needs more information of $X$
+
+
+By applying these two inequalities, we can get a important theorem.
+
+\begin{theorem}
+    \textbf{Weak Law of Large Numbers:}\\
+    Let $X_1,X_2,\dots,X_n$ are i.i.d. random variables, with mean $\mu$ and variance $\sigma^2$, then:
+    \[
+        \forall\,\epsilon > 0, \lim_{n \rightarrow \infty} P( |\frac{X_1 + X_2 + \dots + X_n}{n} - \mu| > \epsilon) = 0.
+    \]
+\end{theorem}
+
+\emph{Proof:}\\
+By Chebyshev Inequality:
+\[
+    P( |\frac{X_1 + X_2 + \dots + X_n}{n} - \mu| > \epsilon) \leq \frac{Var(\frac{X_1+X_2+\dots+X_n}{n})}{\epsilon^2}
+\]
+By independence of $\{X_i\}$, we get:
+\begin{align*}
+        Var(\frac{X_1+X_2+\dots+X_n}{n})    &= \frac{\sum^n_{i=1}Var(X_i)}{n^2} \\
+                                            &= \frac{n\sigma^2}{n^2} \\
+                                            &= \frac{\sigma^2}{n}
+\end{align*}
+So:
+\begin{align*}
+    P( |\frac{X_1 + X_2 + \dots + X_n}{n} - \mu| &> \epsilon) \leq \frac{\sigma^2}{\epsilon^2n} = \frac{1}{n}\times(\frac{\sigma^2}{\epsilon^2})
+\end{align*}
+
+
+
+\begin{quiz}
+    Suppose $X \geq 0$ has $EX = 10$.
+    \begin{enumerate}
+        \item Find a upper bound of $P(X > 15)$. 
+        \item Suppose $Var(X) = 3$. Find a better bound for $(a)$.
+    \end{enumerate}
+\end{quiz}
+
+\begin{definition}
+    \textbf{Four types of convergence:}
+    \begin{enumerate}
+        \item \textbf{convergence in probability:}(p)\\
+        Let $X_1,X_2,\dots,X_n$ be a sequence of random variables. We say $X_n$ converges to $X$ in probability in probability if: 
+        \[
+        \forall\, \epsilon > 0, \, P(|X_n - X| > \epsilon) \rightarrow 0 (n \rightarrow \infty)
+        \]
+        \item \textbf{almost surely convergence:}(a.s.)
+        \[
+            P(\lim_{n \rightarrow \infty} X_n = X) = 1
+        \]
+        \item \textbf{Convergence in distribution:}(d)\\
+        For any $x \in \mathbb{R}$  such that x is a continuity point of $F_X(b) = P(X \leq b)$
+        \[
+            \lim_{n \rightarrow \infty}P(X_n \leq x) = P(X \leq x)
+        \]
+
+        \item \textbf{$L^p$ convergence for $p > 0$}($L^p$)
+        \[
+            \lim_{p \rightarrow \infty}E|X_n - X|^p = 0
+        \]
+    \end{enumerate}
+    From strong convergence to weak convergence:
+    \begin{align*}
+        L^p \rightarrow p \rightarrow d \\
+        a.s. \rightarrow p \rightarrow d
+    \end{align*}
+    There is direct relation between $l^p$ and a.s convergence.
+\end{definition}
+
+
+\section{Lecture 18 2024.12.19}
+\begin{theorem}
+    \textbf{Central Limit Theorem:}\\
+    Let $X_1,X_2,\dots,X_n$ be a sequence of i.i.d random variables, with mean $\mu$ and variance $\sigma^2$. Then:
+    \[
+        \lim_{n \rightarrow \infty} P(\frac{\sum^n_{i=1}X_i - n\mu}{\sqrt{n\sigma^2}} \leq x) = P(Z \leq x), \forall \, x\in \mathbb{R}
+    \]
+    Where $Z \sim N(0,1)$. That is:
+    \[
+        \frac{\sum^n_{i=1}X_i - n\mu}{\sqrt{n\sigma^2}} \xrightarrow{d} Z \text{ }(n \rightarrow \infty)
+    \]
+\end{theorem}
+This is actually describing how does $\sum^n_{i=1}X_i $ converges to $n\mu$
+\begin{theorem}
+    \textbf{Continuity Theorem:}\\
+    Let $\xi_1,\xi_2,\dots,\xi_n$ be a sequence of random variables with characteristic function $\Phi_n(t) = E[e^{it\xi_n}]$. If $\Phi_n(t) \rightarrow \Phi(t),\forall\,t\in\mathbb{R}$ and $\Phi(t) = E[e^{itX}]$ for some random variables $X$ and $\Phi(t)$ is continuous at 0. Then:
+    \[
+        \xi_n \xrightarrow{d} X
+    \]
+\end{theorem}
+Using characteristic function's convergence, we can get convergence in distribution.
+
+\begin{quiz}
+    Let $X_1,X_2,\dots,X_{10}$ be i.i.d. $\sim Unif(0,1)$.Let $S_{10} = \sum^n_{i=1} X_i$. Find $P(S_{10} > 6)$ using:
+    \begin{enumerate}
+        \item Markov's Inequality
+        \item Chebyshev's Inequality
+        \item Central limit theorem
+    \end{enumerate}
+\end{quiz}
+From the result of the quiz, we can observe which one is the most accurate.
+\begin{theorem}
+    \textbf{Chernoff Bound:}\\
+    $\forall \, a > 0$.
+    \begin{itemize}
+        \item $P(X \geq a) \leq \min_{t > 0}\{E[\frac{e^{tX}}{e^{ta}}]\} \quad \forall \, t > 0$
+        \item $P(X \leq a) \leq \min_{t < 0}\{E[\frac{e^{tX}}{e^{ta}}]\} \quad \forall \, t < 0$
+    \end{itemize}
+\end{theorem}
+Application of this Chernoff bound:
+
+For $Z \sim N(0,1)$,
+\begin{align*}
+    P(Z \geq a) \leq \frac{E[e^{tZ}]}{e^{ta}} = e^{\frac{1}{2}t^2 - at}
+\end{align*}
+Since this is correct for all $t > 0$.
+\[
+    P(Z \geq a) \leq e^{-\frac{1}{2}a^2} \quad \forall \,a>0
+\]
+This is a pretty good estimation for the normal distribution.
+\begin{theorem}
+    \textbf{Jensen's Inequality:}\\
+    Take a convex function $f(x)$, then we have:
+    \[
+        f(E[X]) \leq E[f(x)] \quad \forall \, x \in \mathbb{R}
+    \]
+\end{theorem}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1552,7 +1876,28 @@ Now we can define:
     \item $EY = 1$
     \item $Cov(X,Y) = 1$
 \end{enumerate}
+
+\item \textbf{\large Quiz 15}
+
+\item \textbf{\large Quiz 16}
+
+\item \textbf{\large Quiz 17}
+\begin{enumerate}
+    \item $\frac{2}{3}$
+    \item $\frac{3}{25}$
 \end{enumerate}
+
+\item \textbf{\large Quiz 18}
+\begin{enumerate}
+    \item $\frac{5}{6}$
+    \item $\frac{5}{12}$
+    \item $P(Z > \sqrt{1.2})$
+\end{enumerate}
+
+
+
+\end{enumerate}
+
 
 
 \newpage
